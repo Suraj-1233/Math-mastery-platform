@@ -2,6 +2,7 @@
 import Link from 'next/link';
 import { PenTool } from 'lucide-react';
 import { auth } from '@/auth';
+import { LogoutButton } from './LogoutButton';
 
 export async function Navbar() {
     const session = await auth();
@@ -28,18 +29,9 @@ export async function Navbar() {
                 </div>
                 <div>
                     {session?.user ? (
-                        <div className="flex items-center space-x-4">
-                            <span className="text-sm text-gray-700">Hi, {session.user.name || 'User'}</span>
-                            <form action={async () => {
-                                'use server';
-                                // Need to import signOut from auth.ts but cannot direct import in client if this was client component
-                                // Since this is server component, we can use the signOut function logic or just link
-                                // For simplicity in MVP without client-side signOut button logic:
-                                const { signOut } = await import('@/auth');
-                                await signOut({ redirectTo: '/login' });
-                            }}>
-                                <button className="text-sm text-red-600 hover:underline">Log out</button>
-                            </form>
+                        <div className="flex items-center space-x-2">
+                            <span className="text-sm text-gray-700 mr-2 font-medium">Hi, {session.user.name || 'User'}</span>
+                            <LogoutButton />
                         </div>
                     ) : (
                         <div className="space-x-4">
