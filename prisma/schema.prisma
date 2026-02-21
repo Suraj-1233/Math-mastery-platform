@@ -35,6 +35,8 @@ model Question {
   examType          String     // e.g., "SSC_CGL", "RAILWAY"
   year              Int?
   imageUrl          String?    // Primary feature image
+  imageWidth        Int?       // Width in pixels
+  imageHeight       Int?       // Height in pixels
   tags              String?    // comma-separated
   isPremium         Boolean    @default(false)
   questionType      String     @default("MCQ") // MCQ, NUMERIC, TRUE_FALSE
@@ -68,6 +70,8 @@ model Media {
   id         String   @id @default(cuid())
   url        String
   type       String   @default("IMAGE") // IMAGE, VIDEO, PDF
+  width      Int?     // Width in pixels
+  height     Int?     // Height in pixels
   caption    String?
   questionId String
   question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)

@@ -82,11 +82,23 @@ export function QuestionCard({ question }: QuestionCardProps) {
                             isCorrect ? <CheckCircle className="h-4 w-4 text-success" /> : <XCircle className="h-4 w-4 text-error" />
                         )}
                     </div>
-                    {occurrenceList && (
-                        <div className="text-[10px] font-semibold text-primary uppercase tracking-wider bg-primary/5 px-2 py-0.5 rounded-full inline-block border border-primary/10">
-                            {occurrenceList}
-                        </div>
-                    )}
+                    <div className="flex flex-wrap gap-2">
+                        {question.occurrences && question.occurrences.length > 0 ? (
+                            question.occurrences.map((occ: any, idx: number) => (
+                                <div key={occ.id} className="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                    <span className="opacity-70 mr-1">#</span>
+                                    {occ.examName} {occ.year} {occ.shift && ` | ${occ.shift}`}
+                                </div>
+                            ))
+                        ) : (
+                            question.examType && question.year && (
+                                <div className="inline-flex items-center rounded-md bg-blue-50 px-2 py-0.5 text-[10px] font-bold text-blue-700 ring-1 ring-inset ring-blue-700/10">
+                                    <span className="opacity-70 mr-1">#</span>
+                                    {question.examType} {question.year}
+                                </div>
+                            )
+                        )}
+                    </div>
                 </div>
                 <div className="flex items-center space-x-2">
                     {(question.textHi || question.explanationHi) && (
@@ -108,10 +120,20 @@ export function QuestionCard({ question }: QuestionCardProps) {
                 </div>
             </div>
 
-            {/* Primary Question Image */}
+            {/* Primary Question Image - Dynamic sizing from DB */}
             {question.imageUrl && (
-                <div className="mb-4 overflow-hidden rounded-lg border border-border">
-                    <img src={question.imageUrl} alt="Question" className="h-auto w-full object-cover" />
+                <div className="mb-6 flex justify-center">
+                    <div className="group relative overflow-hidden rounded-xl border border-border/60 bg-white/50 p-2 shadow-sm transition-all hover:shadow-md">
+                        <img
+                            src={question.imageUrl}
+                            alt="Question Diagram"
+                            style={{ maxWidth: question.imageWidth ? `${question.imageWidth}px` : '320px' }}
+                            className="h-auto w-full rounded-lg object-contain"
+                        />
+                        <div className="absolute bottom-2 right-2 rounded-md bg-black/50 px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+                            Click to Enlarge
+                        </div>
+                    </div>
                 </div>
             )}
 
@@ -134,19 +156,36 @@ export function QuestionCard({ question }: QuestionCardProps) {
                 />
             </div>
 
-            {/* Generic Media Support */}
+            {/* Generic Media Support - Refined Gallery Style with Dynamic Sizing */}
             {question.media && question.media.length > 0 && (
-                <div className="mb-6 grid grid-cols-1 gap-4 sm:grid-cols-2">
-                    {question.media.map((item: any) => (
-                        <div key={item.id} className="overflow-hidden rounded-md border border-border bg-muted/5 p-2">
-                            {item.type === 'IMAGE' ? (
-                                <img src={item.url} alt={item.caption || "Media"} className="h-auto w-full rounded" />
-                            ) : (
-                                <div className="p-4 text-center text-xs text-muted">Media: {item.type}</div>
-                            )}
-                            {item.caption && <p className="mt-1 text-[10px] text-center text-muted uppercase tracking-wider">{item.caption}</p>}
-                        </div>
-                    ))}
+                <div className="mb-6">
+                    <h4 className="mb-3 text-[11px] font-bold uppercase tracking-widest text-muted-foreground text-center">Supplementary Media</h4>
+                    <div className="flex flex-wrap justify-center gap-4">
+                        {question.media.map((item: any) => (
+                            <div
+                                key={item.id}
+                                style={{ width: item.width ? `${item.width}px` : 'auto', maxWidth: '100%' }}
+                                className="group relative overflow-hidden rounded-lg border border-border/40 bg-muted/5 p-1.5 transition-all hover:border-primary/30 shadow-sm"
+                            >
+                                {item.type === 'IMAGE' ? (
+                                    <div className="overflow-hidden rounded">
+                                        <img
+                                            src={item.url}
+                                            alt={item.caption || "Media"}
+                                            className="h-auto w-full object-contain transition-transform duration-300 group-hover:scale-105"
+                                        />
+                                    </div>
+                                ) : (
+                                    <div className="flex aspect-square items-center justify-center bg-muted/20 text-[10px] text-muted-foreground uppercase">{item.type}</div>
+                                )}
+                                {item.caption && (
+                                    <div className="mt-1.5 truncate px-1 text-center text-[9px] font-medium text-muted-foreground uppercase tracking-tight">
+                                        {item.caption}
+                                    </div>
+                                )}
+                            </div>
+                        ))}
+                    </div>
                 </div>
             )}
 

@@ -21,15 +21,18 @@ export async function getUserStats(targetYear?: number) {
 
     // Aggregate Subject Stats (Prisma limitation: groupBy on relation not direct)
     // Workaround: Fetch solved progress with question relation
-    const solvedWithSubjects = await prisma.userProgress.findMany({
-        where: { userId, isSolved: true },
-        include: { question: { select: { subject: true } } },
-    });
+    // Aggregate Subject Stats using Raw SQL because Prisma client might be out of sync
+    const solvedRecords: any[] = await prisma.$queryRawUnsafe(`
+        SELECT up.isCorrect, q.subject 
+        FROM UserProgress up
+        JOIN Question q ON up.questionId = q.id
+        WHERE up.userId = '${userId}' AND up.isSolved = 1
+    `);
 
     const subjectMap = new Map<string, { total: number; correct: number }>();
 
-    solvedWithSubjects.forEach((record) => {
-        const subject = record.question.subject;
+    solvedRecords.forEach((record) => {
+        const subject = record.subject;
         const current = subjectMap.get(subject) || { total: 0, correct: 0 };
         current.total += 1;
         if (record.isCorrect) current.correct += 1;

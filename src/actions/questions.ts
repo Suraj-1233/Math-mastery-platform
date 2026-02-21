@@ -14,48 +14,46 @@ export async function getQuestions(input: z.infer<typeof getQuestionsSchema>) {
     const { page, limit, subject, topic, examType, notExamType, difficulty, status, search, sortBy } = input;
     const skip = (page - 1) * limit;
 
-    // Build where clause
-    const where: any = {};
-    if (subject) where.subject = subject;
-    if (topic) where.topic = topic;
-    if (examType) where.examType = examType;
-    if (notExamType) where.examType = { not: notExamType };
-    if (difficulty) where.difficulty = difficulty;
-    if (search) {
-        where.text = { contains: search };
-    }
+    // Build Raw SQL Where Clause
+    const whereConditions: string[] = [];
+    if (subject) whereConditions.push(`subject = '${subject}'`);
+    if (topic) whereConditions.push(`topic = '${topic}'`);
+    if (examType) whereConditions.push(`examType = '${examType}'`);
+    if (notExamType) whereConditions.push(`examType != '${notExamType}'`);
+    if (difficulty) whereConditions.push(`difficulty = '${difficulty}'`);
+    if (search) whereConditions.push(`text LIKE '%${search}%'`);
 
-    // Handle Status Filter (Complex due to Relation)
     if (userId && status) {
         if (status === 'SOLVED') {
-            where.userProgress = { some: { userId, isSolved: true } };
+            whereConditions.push(`id IN (SELECT questionId FROM UserProgress WHERE userId = '${userId}' AND isSolved = 1)`);
         } else if (status === 'UNSOLVED') {
-            where.userProgress = { none: { userId, isSolved: true } };
+            whereConditions.push(`id NOT IN (SELECT questionId FROM UserProgress WHERE userId = '${userId}' AND isSolved = 1)`);
         } else if (status === 'BOOKMARKED') {
-            where.userProgress = { some: { userId, isBookmarked: true } };
+            whereConditions.push(`id IN (SELECT questionId FROM UserProgress WHERE userId = '${userId}' AND isBookmarked = 1)`);
         } else if (status === 'WRONG') {
-            where.userProgress = { some: { userId, status: 'WRONG' } };
+            whereConditions.push(`id IN (SELECT questionId FROM UserProgress WHERE userId = '${userId}' AND status = 'WRONG')`);
         }
     }
 
-    // Build OrderBy
-    let orderBy: any = { createdAt: 'desc' };
-    if (sortBy === 'difficulty') orderBy = { difficulty: 'asc' };
-    // 'most_solved' would require an aggregation field or separate query, skipping for MVP simplicity or add later
+    const whereClause = whereConditions.length > 0 ? `WHERE ${whereConditions.join(' AND ')}` : '';
+    const orderClause = sortBy === 'difficulty' ? 'ORDER BY difficulty ASC' : 'ORDER BY createdAt DESC';
+    const limitClause = `LIMIT ${limit} OFFSET ${skip}`;
 
-    const [questions, totalCount] = await Promise.all([
-        (prisma.question as any).findMany({
-            where: where as any,
-            skip,
-            take: limit,
-            orderBy,
-            include: {
-                // optimistically fetch progress for the current user to show status badges
-                userProgress: userId ? { where: { userId } } : false,
-            } as any,
-        }),
-        (prisma.question as any).count({ where: where as any }),
-    ]);
+    // Execute Raw Queries
+    const [questions, totalCountResults] = await Promise.all([
+        prisma.$queryRawUnsafe(`SELECT * FROM Question ${whereClause} ${orderClause} ${limitClause}`),
+        prisma.$queryRawUnsafe(`SELECT COUNT(*) as count FROM Question ${whereClause}`)
+    ]) as [any[], any[]];
+
+    const totalCount = Number(totalCountResults[0]?.count || 0);
+
+    // Fetch user progress for these questions manually
+    let userProgress: any[] = [];
+    if (userId && questions.length > 0) {
+        userProgress = await prisma.$queryRawUnsafe(
+            `SELECT * FROM UserProgress WHERE userId = '${userId}' AND questionId IN (${questions.map(q => `'${q.id}'`).join(',')})`
+        );
+    }
 
     // Manually fetch occurrences and media since Prisma client is out of sync
     const questionIds = questions.map((q: any) => q.id);
@@ -78,7 +76,7 @@ export async function getQuestions(input: z.infer<typeof getQuestionsSchema>) {
 
     // Transform data to include a simplified userStatus field for the client
     const questionsWithStatus = questions.map((q: any) => {
-        const progress = q.userProgress?.[0];
+        const progress = userProgress.find(p => p.questionId === q.id);
         return {
             ...q,
             occurrences: occurrences.filter(o => o.questionId === q.id),
@@ -106,9 +104,10 @@ export async function submitAnswer(input: z.infer<typeof submitAnswerSchema>) {
 
     const { questionId, selectedOptionIndex } = input;
 
-    const question = await (prisma.question as any).findUnique({
-        where: { id: questionId },
-    });
+    const questions = await prisma.$queryRawUnsafe(
+        `SELECT * FROM Question WHERE id = '${questionId}'`
+    ) as any[];
+    const question = questions[0];
 
     if (!question) throw new Error('Question not found');
 
@@ -156,14 +155,13 @@ export async function submitAnswer(input: z.infer<typeof submitAnswerSchema>) {
         }
     }
 
-    await (prisma.question as any).update({
-        where: { id: questionId },
-        data: {
-            solveAttemptCount: newSolveCount,
-            wrongAttemptCount: newWrongCount,
-            difficulty: newDifficulty,
-        },
-    });
+    await (prisma as any).$executeRawUnsafe(
+        `UPDATE Question SET 
+            solveAttemptCount = ${newSolveCount}, 
+            wrongAttemptCount = ${newWrongCount}, 
+            difficulty = '${newDifficulty}' 
+         WHERE id = '${questionId}'`
+    );
 
     revalidatePath('/questions'); // Revalidate list to update icons and badges
     revalidatePath(`/questions/${questionId}`);
