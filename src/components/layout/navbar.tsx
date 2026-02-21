@@ -36,7 +36,7 @@ export async function Navbar() {
                                 // Since this is server component, we can use the signOut function logic or just link
                                 // For simplicity in MVP without client-side signOut button logic:
                                 const { signOut } = await import('@/auth');
-                                await signOut();
+                                await signOut({ redirectTo: '/login' });
                             }}>
                                 <button className="text-sm text-red-600 hover:underline">Log out</button>
                             </form>
