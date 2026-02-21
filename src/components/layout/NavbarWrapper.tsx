@@ -8,7 +8,7 @@ export function NavbarWrapper({ children }: { children: ReactNode }) {
 
     // Hide navbar on auth pages to maintain the full-screen premium UI
     if (pathname === '/login' || pathname === '/signup') {
-        return null;
+        return <div className="hidden">{children}</div>;
     }
 
     return <>{children}</>;
