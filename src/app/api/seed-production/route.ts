@@ -124,7 +124,7 @@ export async function GET(request: NextRequest) {
 
         return NextResponse.json({
             success: true,
-            message: "Production data seeded successfully (PYQs Only)!",
+            message: "Production data seeded successfully (PYQs & Badges System Ready)!",
             counts: {
                 pyqs: formattedPYQs.length,
                 total: allQuestions.length

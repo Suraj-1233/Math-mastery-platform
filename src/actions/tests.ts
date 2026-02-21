@@ -31,7 +31,7 @@ export async function getMockTestEngineData(testId: string) {
         include: {
             userProgress: userId ? {
                 where: { userId }
-            } : false
+            } : false as any
         }
     });
 
@@ -41,16 +41,26 @@ export async function getMockTestEngineData(testId: string) {
             include: {
                 userProgress: userId ? {
                     where: { userId }
-                } : false
+                } : false as any
             }
         });
         questions.push(...backfill);
     }
 
+    // Fetch media separately using Raw SQL to avoid Prisma Client validation errors
+    const questionIds = questions.map(q => q.id);
+    let allMedia: any[] = [];
+    if (questionIds.length > 0) {
+        allMedia = await prisma.$queryRawUnsafe(`
+            SELECT * FROM Media WHERE questionId IN (${questionIds.map(id => `'${id}'`).join(',')})
+        `) as any[];
+    }
+
     const formattedQuestions = questions.map(q => ({
         ...q,
         options: q.options ? JSON.parse(q.options as string) : [],
-        isBookmarked: q.userProgress?.[0]?.isBookmarked || false
+        isBookmarked: (q as any).userProgress?.[0]?.isBookmarked || false,
+        media: allMedia.filter(m => m.questionId === q.id)
     }));
 
     return {

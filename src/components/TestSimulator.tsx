@@ -6,11 +6,17 @@ import { useRouter } from 'next/navigation';
 import { clsx } from 'clsx';
 import { Clock, CheckSquare, Flag, ArrowRight, ArrowLeft, Bookmark } from 'lucide-react';
 import { toggleBookmark } from '@/actions/questions';
+import { SubmissionModal } from './SubmissionModal';
+import { useToast } from '@/contexts/ToastContext';
 
 interface Question {
     id: string;
     text: string;
-    options: string[];
+    textHi?: string | null;
+    options: any[]; // Changed from string[] to any[] for object support
+    imageUrl?: string | null;
+    imageWidth?: number | null;
+    media?: any[] | null;
     isBookmarked?: boolean;
 }
 
@@ -21,11 +27,14 @@ interface TestSimulatorProps {
 
 export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
     const router = useRouter();
+    const { showToast } = useToast();
     const [currentQIndex, setCurrentQIndex] = useState(0);
     const [answers, setAnswers] = useState<Record<string, number>>({});
     const [markedForReview, setMarkedForReview] = useState<Set<string>>(new Set());
     const [timeLeft, setTimeLeft] = useState(testMeta.duration * 60); // in seconds
     const [isSubmitting, setIsSubmitting] = useState(false);
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    const [language, setLanguage] = useState<'EN' | 'HI'>('EN');
 
     // Track local override of bookmarks so the UI updates instantly
     const [localBookmarks, setLocalBookmarks] = useState<Set<string>>(() => {
@@ -126,9 +135,10 @@ export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
         } catch (error) {
             console.error('Failed to submit test:', error);
             setIsSubmitting(false);
-            alert('Failed to submit test. Are you logged in?');
+            setIsModalOpen(false); // Close modal on error
+            showToast('Failed to submit test. Are you logged in?', 'error');
         }
-    }, [testMeta.id, isSubmitting, router]);
+    }, [testMeta.id, isSubmitting, router, showToast]);
 
     const renderMarkdown = (text: string) => {
         return {
@@ -148,18 +158,28 @@ export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
                 <div className="flex justify-between items-center mb-8 pb-4 border-b border-border">
                     <div className="flex items-center gap-4">
                         <div>
-                            <h1 className="text-2xl font-bold">{testMeta.title}</h1>
+                            <h1 className="text-2xl font-bold">{language === 'HI' ? testMeta.titleHi || testMeta.title : testMeta.title}</h1>
                             <p className="text-sm text-muted">Question {currentQIndex + 1} of {questions.length}</p>
                         </div>
-                        <button
-                            onClick={handleGlobalBookmark}
-                            className="text-muted hover:text-warning transition-colors p-2"
-                            title="Save to Question Bank Bookmarks"
-                        >
-                            <Bookmark
-                                className={clsx('w-6 h-6', localBookmarks.has(currentQuestion.id) ? 'fill-current text-yellow-500' : '')}
-                            />
-                        </button>
+                        <div className="flex items-center space-x-2">
+                            {(currentQuestion.textHi) && (
+                                <button
+                                    onClick={() => setLanguage(language === 'EN' ? 'HI' : 'EN')}
+                                    className="text-xs font-bold px-2 py-1 rounded bg-muted/20 hover:bg-muted/40 transition-colors uppercase border border-border"
+                                >
+                                    {language === 'EN' ? 'HI' : 'EN'}
+                                </button>
+                            )}
+                            <button
+                                onClick={handleGlobalBookmark}
+                                className="text-muted hover:text-warning transition-colors p-2"
+                                title="Save to Question Bank Bookmarks"
+                            >
+                                <Bookmark
+                                    className={clsx('w-6 h-6', localBookmarks.has(currentQuestion.id) ? 'fill-current text-yellow-500' : '')}
+                                />
+                            </button>
+                        </div>
                     </div>
                     <div className={clsx(
                         "flex items-center space-x-2 px-4 py-2 rounded-lg font-mono text-lg font-bold shadow-sm border",
@@ -179,9 +199,61 @@ export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
                         .parsed-markdown h3 { font-size: 1.125rem; font-weight: 700; margin-bottom: 0.75rem; color: var(--primary); }
                     `}</style>
                     <div
-                        className="text-base leading-relaxed parsed-markdown mb-8"
-                        dangerouslySetInnerHTML={renderMarkdown(currentQuestion.text)}
+                        className="text-base leading-relaxed parsed-markdown mb-6"
+                        dangerouslySetInnerHTML={renderMarkdown(language === 'HI' && currentQuestion.textHi ? currentQuestion.textHi : currentQuestion.text)}
                     />
+
+                    {/* Primary Question Image */}
+                    {currentQuestion.imageUrl && (
+                        <div className="mb-6 flex justify-center">
+                            <div className="group relative overflow-hidden rounded-xl border border-border/60 bg-white/50 p-2 shadow-sm transition-all hover:shadow-md">
+                                <img
+                                    src={currentQuestion.imageUrl}
+                                    alt="Question Diagram"
+                                    style={{ maxWidth: currentQuestion.imageWidth ? `${currentQuestion.imageWidth}px` : '320px' }}
+                                    className="h-auto w-full rounded-lg object-contain"
+                                />
+                                <div className="absolute bottom-2 right-2 rounded-md bg-black/50 px-2 py-1 text-[10px] text-white opacity-0 transition-opacity group-hover:opacity-100">
+                                    Click to Enlarge
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
+                    {/* Generic Media Support */}
+                    {currentQuestion.media && currentQuestion.media.length > 0 && (
+                        <div className="mb-8 border-y border-dashed border-border/50 py-6 bg-muted/5 rounded-xl">
+                            <h4 className="mb-4 text-[10px] font-bold uppercase tracking-[0.2em] text-muted-foreground text-center">Ref. Figures & Data</h4>
+                            <div className="flex flex-wrap justify-center gap-6 px-4">
+                                {currentQuestion.media.map((item: any) => (
+                                    <div
+                                        key={item.id}
+                                        style={{ width: item.width ? `${item.width}px` : 'auto', maxWidth: '100%' }}
+                                        className="group relative overflow-hidden rounded-xl border border-border/40 bg-white p-2 transition-all hover:border-primary/30 shadow-sm"
+                                    >
+                                        {item.type === 'IMAGE' ? (
+                                            <div className="overflow-hidden rounded-lg">
+                                                <img
+                                                    src={item.url}
+                                                    alt={item.caption || "Media"}
+                                                    className="h-auto w-full object-contain transition-transform duration-500 group-hover:scale-105"
+                                                />
+                                            </div>
+                                        ) : (
+                                            <div className="flex aspect-video items-center justify-center bg-muted/20 text-[10px] text-muted-foreground uppercase rounded-lg border border-dashed border-muted">
+                                                {item.type} Media
+                                            </div>
+                                        )}
+                                        {item.caption && (
+                                            <div className="mt-2 text-center text-[10px] font-bold text-muted-foreground uppercase tracking-tight opacity-70">
+                                                {item.caption}
+                                            </div>
+                                        )}
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    )}
 
                     {/* Options Area */}
                     <div className="space-y-4">
@@ -192,21 +264,32 @@ export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
                                     key={i}
                                     onClick={() => handleAnswerSelect(i)}
                                     className={clsx(
-                                        "w-full text-left p-4 rounded-xl border transition-all flex items-center shadow-sm",
+                                        "w-full text-left p-4 rounded-xl border transition-all flex flex-col shadow-sm",
                                         isSelected
                                             ? "border-primary bg-primary-light ring-1 ring-primary"
                                             : "border-border bg-surface hover:bg-muted-light/30"
                                     )}
                                 >
-                                    <div className={clsx(
-                                        "w-6 h-6 rounded-full border flex items-center justify-center mr-4 text-xs font-bold shrink-0",
-                                        isSelected ? "border-primary bg-primary text-primary-foreground" : "border-muted text-muted"
-                                    )}>
-                                        {String.fromCharCode(65 + i)}
+                                    <div className="flex items-center">
+                                        <div className={clsx(
+                                            "w-6 h-6 rounded-full border flex items-center justify-center mr-4 text-xs font-bold shrink-0",
+                                            isSelected ? "border-primary bg-primary text-primary-foreground" : "border-muted text-muted"
+                                        )}>
+                                            {String.fromCharCode(65 + i)}
+                                        </div>
+                                        <span className={clsx("text-sm font-medium", isSelected ? "text-primary-dark" : "text-foreground")}>
+                                            {typeof opt === 'string' ? opt : opt.text}
+                                        </span>
                                     </div>
-                                    <span className={clsx("text-sm font-medium", isSelected ? "text-primary-dark" : "text-foreground")}>
-                                        {opt}
-                                    </span>
+                                    {typeof opt === 'object' && opt.imageUrl && (
+                                        <div className="mt-3 ml-10">
+                                            <img
+                                                src={opt.imageUrl}
+                                                alt={`Option ${String.fromCharCode(65 + i)}`}
+                                                className="h-auto max-w-[240px] rounded-lg border border-border/50 bg-white p-1"
+                                            />
+                                        </div>
+                                    )}
                                 </button>
                             );
                         })}
@@ -290,14 +373,9 @@ export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
                     </div>
                 </div>
 
-                {/* Submit Button */}
                 <div className="pt-6 border-t border-border mt-auto">
                     <button
-                        onClick={() => {
-                            if (confirm('Are you sure you want to submit the test? You cannot change your answers later.')) {
-                                handleFinalSubmit();
-                            }
-                        }}
+                        onClick={() => setIsModalOpen(true)}
                         disabled={isSubmitting}
                         className="btn btn-error w-full shadow-lg"
                     >
@@ -305,6 +383,18 @@ export function TestSimulator({ testMeta, questions }: TestSimulatorProps) {
                     </button>
                 </div>
             </div>
+
+            <SubmissionModal
+                isOpen={isModalOpen}
+                onClose={() => setIsModalOpen(false)}
+                onConfirm={handleFinalSubmit}
+                isSubmitting={isSubmitting}
+                stats={{
+                    answered: Object.keys(answers).length,
+                    marked: markedForReview.size,
+                    total: questions.length
+                }}
+            />
         </div>
     );
 }

@@ -1,16 +1,18 @@
-
 'use client';
 
 import { useState } from 'react';
 import { submitAnswer, toggleBookmark } from '@/actions/questions';
+import { checkAndAwardBadges } from '@/actions/badges';
 import { clsx } from 'clsx';
-import { Bookmark, CheckCircle, XCircle } from 'lucide-react';
+import { Bookmark, CheckCircle, XCircle, Zap, BookOpen, Share2 } from 'lucide-react';
+import { useToast } from '@/contexts/ToastContext';
 
 interface QuestionCardProps {
     question: any; // Type strictly with Prisma generated types later
 }
 
 export function QuestionCard({ question }: QuestionCardProps) {
+    const { showToast } = useToast();
     const [selectedOption, setSelectedOption] = useState<number | null>(null);
     const [isSubmitted, setIsSubmitted] = useState(
         question.userStatus?.isSolved || false
@@ -28,10 +30,13 @@ export function QuestionCard({ question }: QuestionCardProps) {
         question.userStatus?.isSolved ? question.explanationHi : null
     );
     const [language, setLanguage] = useState<'EN' | 'HI'>('EN');
+    const [isSubmitting, setIsSubmitting] = useState(false);
+    const [newBadges, setNewBadges] = useState<any[]>([]);
 
     const handleSubmit = async () => {
-        if (selectedOption === null || isSubmitted) return;
+        if (selectedOption === null || isSubmitted || isSubmitting) return;
 
+        setIsSubmitting(true);
         try {
             const result = await submitAnswer({
                 questionId: question.id,
@@ -42,8 +47,16 @@ export function QuestionCard({ question }: QuestionCardProps) {
             setIsCorrect(result.isCorrect);
             setExplanation(result.explanation);
             setExplanationHi(result.explanationHi);
+
+
+            // Trigger badge check - result.newBadges is already returned by updated submitAnswer
+            if ((result as any).newBadges) {
+                setNewBadges((result as any).newBadges);
+            }
         } catch (error) {
             console.error('Failed to submit answer:', error);
+        } finally {
+            setIsSubmitting(false);
         }
     };
 
@@ -53,6 +66,16 @@ export function QuestionCard({ question }: QuestionCardProps) {
             await toggleBookmark(question.id);
         } catch (error) {
             setIsBookmarked(!isBookmarked);
+        }
+    };
+
+    const handleShare = () => {
+        const url = `${window.location.origin}/questions/${question.id}`;
+        if (navigator.share) {
+            navigator.share({ title: 'Math Mastery Question', url }).catch(() => { });
+        } else {
+            navigator.clipboard.writeText(url);
+            showToast('Question link copied to clipboard!', 'success');
         }
     };
 
@@ -116,6 +139,13 @@ export function QuestionCard({ question }: QuestionCardProps) {
                         <Bookmark
                             className={clsx('h-5 w-5', isBookmarked && 'fill-current text-yellow-500')}
                         />
+                    </button>
+                    <button
+                        onClick={handleShare}
+                        className="text-muted hover:text-secondary transition-colors"
+                        title="Share Question"
+                    >
+                        <Share2 className="h-5 w-5" />
                     </button>
                 </div>
             </div>
@@ -233,17 +263,17 @@ export function QuestionCard({ question }: QuestionCardProps) {
                 })}
             </div>
 
-            {!isSubmitted ? (
-                <div className="mt-6 flex justify-end">
-                    <button
-                        onClick={handleSubmit}
-                        disabled={selectedOption === null}
-                        className="btn btn-primary"
-                    >
-                        Submit Answer
-                    </button>
-                </div>
-            ) : (
+            <div className="mt-6 flex justify-end">
+                <button
+                    onClick={handleSubmit}
+                    disabled={selectedOption === null || isSubmitted}
+                    className="btn btn-primary"
+                >
+                    {isSubmitted ? "Submitted" : "Submit Answer"}
+                </button>
+            </div>
+
+            {isSubmitted && (
                 <div className="mt-6 rounded-md bg-muted-light/30 border border-border p-4">
                     <h4 className="mb-2 font-semibold text-foreground">Explanation:</h4>
                     <div

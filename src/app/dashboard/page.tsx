@@ -1,9 +1,10 @@
-
-import { getUserStats } from '@/actions/stats';
+import { getUserStats, getUserTestAttempts } from '@/actions/stats';
 import { SubjectRadarChart } from '@/components/dashboard/subject-chart';
 import { ActivityHeatmap } from '@/components/dashboard/activity-heatmap';
-import { Target, Zap, Trophy, BookOpen } from 'lucide-react';
+import { Target, Zap, Trophy, BookOpen, Award, Clock } from 'lucide-react';
 import Link from 'next/link';
+import { getUserBadges } from '@/actions/badges';
+import { BadgesList } from '@/components/dashboard/BadgesDisplay';
 
 export default async function DashboardPage({ searchParams }: { searchParams: Promise<{ year?: string }> }) {
     const resolvedParams = await searchParams;
@@ -11,6 +12,8 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
     const targetYear = resolvedParams.year ? parseInt(resolvedParams.year) : currentYear;
 
     const stats = await getUserStats(targetYear);
+    const badges = await getUserBadges();
+    const testHistory = await getUserTestAttempts();
 
     if (!stats) {
         return (
@@ -20,7 +23,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         )
     }
 
-    const { totalSolved, accuracy, currentStreak, rank, percentile, subjectWise, activityData } = stats;
+    const { totalSolved, accuracy, currentStreak, subjectWise, activityData } = stats;
 
     return (
         <div className="min-h-screen bg-gray-50 pb-12">
@@ -33,7 +36,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                 </div>
 
                 {/* Key Metrics Grid */}
-                <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+                <div className="mb-8 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
                     <div className="overflow-hidden rounded-lg bg-white shadow">
                         <div className="p-5">
                             <div className="flex items-center">
@@ -100,27 +103,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                         </div>
                     </div>
 
-                    <div className="overflow-hidden rounded-lg bg-white shadow">
-                        <div className="p-5">
-                            <div className="flex items-center">
-                                <div className="flex-shrink-0">
-                                    <Trophy className="h-6 w-6 text-purple-500" />
-                                </div>
-                                <div className="ml-5 w-0 flex-1">
-                                    <dl>
-                                        <dt className="truncate text-sm font-medium text-gray-500">
-                                            Global Rank
-                                        </dt>
-                                        <dd>
-                                            <div className="text-lg font-medium text-gray-900">
-                                                #{rank} (Top {percentile}%)
-                                            </div>
-                                        </dd>
-                                    </dl>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+
                 </div>
 
                 {/* Activity Heatmap Grid */}
@@ -128,7 +111,60 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                     <ActivityHeatmap data={new Map(Object.entries(activityData || {}))} year={targetYear} />
                 </div>
 
+                {/* Achievements Section */}
+                <div className="mb-8 rounded-2xl bg-gradient-to-br from-blue-50/50 to-indigo-50/50 p-6 ring-1 ring-blue-100/50">
+                    <div className="mb-6 flex items-center justify-between">
+                        <div>
+                            <h2 className="text-xl font-bold text-gray-900 flex items-center">
+                                <Award className="mr-2 h-5 w-5 text-primary" />
+                                Your Achievements
+                            </h2>
+                            <p className="text-sm text-gray-500 mt-0.5">Badges earned through your hard work and consistency.</p>
+                        </div>
+                    </div>
+                    <BadgesList badges={badges} />
+                </div>
+
                 <div className="grid grid-cols-1 gap-8 lg:grid-cols-2">
+                    {/* Test History Section */}
+                    <div className="rounded-lg bg-white p-6 shadow">
+                        <h3 className="mb-4 text-lg font-medium text-gray-900 flex items-center gap-2">
+                            <Clock className="w-5 h-5 text-primary" />
+                            Recent Test History
+                        </h3>
+                        <div className="space-y-3">
+                            {testHistory && testHistory.length > 0 ? (
+                                testHistory.slice(0, 5).map((attempt) => (
+                                    <Link
+                                        key={attempt.id}
+                                        href={`/tests/${attempt.testId}/result?attemptId=${attempt.id}`}
+                                        className="flex items-center justify-between p-3 rounded-xl border border-border hover:bg-muted-light group transition-colors"
+                                    >
+                                        <div>
+                                            <p className="font-bold text-sm text-foreground group-hover:text-primary transition-colors">
+                                                {attempt.test?.title || 'Unknown Test'}
+                                            </p>
+                                            <p className="text-[10px] uppercase font-black text-muted tracking-tighter">
+                                                {new Date(attempt.startedAt).toLocaleDateString()} • {attempt.accuracy.toFixed(1)}% Accuracy
+                                            </p>
+                                        </div>
+                                        <div className="text-right">
+                                            <p className="text-lg font-black text-foreground">{attempt.score.toFixed(1)}</p>
+                                            <p className="text-[10px] uppercase font-black text-muted tracking-tighter">Score</p>
+                                        </div>
+                                    </Link>
+                                ))
+                            ) : (
+                                <div className="text-center py-10 border-2 border-dashed border-border rounded-xl">
+                                    <p className="text-sm text-muted">No tests taken yet.</p>
+                                    <Link href="/tests" className="text-primary font-bold text-sm hover:underline mt-2 inline-block">
+                                        Take your first test →
+                                    </Link>
+                                </div>
+                            )}
+                        </div>
+                    </div>
+
                     {/* Chart Section */}
                     <div className="rounded-lg bg-white p-6 shadow">
                         <h3 className="mb-4 text-lg font-medium text-gray-900">Subject Performance</h3>

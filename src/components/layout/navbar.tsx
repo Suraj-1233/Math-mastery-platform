@@ -25,9 +25,7 @@ export async function Navbar() {
                         <Link href="/tests" className="text-sm font-medium text-gray-700 hover:text-blue-600">
                             Mock Tests
                         </Link>
-                        <Link href="/leaderboard" className="text-sm font-medium text-gray-700 hover:text-blue-600">
-                            Leaderboard
-                        </Link>
+
                         <Link href="/dashboard" className="text-sm font-medium text-gray-700 hover:text-blue-600">
                             Dashboard
                         </Link>

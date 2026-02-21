@@ -19,6 +19,20 @@ model User {
   
   progress           UserProgress[]
   testAttempts       UserTestAttempt[]
+  badges             Badge[]
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  name        String   // e.g., "Math Magician", "Early Bird"
+  description String
+  icon        String   // Lucid icon name or emoji
+  type        String   // "ACHIEVEMENT", "STREAK", "LEVEL"
+  awardedAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
 }
 
 model Question {

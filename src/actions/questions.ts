@@ -6,6 +6,7 @@ import { auth } from '@/auth';
 import { revalidatePath } from 'next/cache';
 import { getQuestionsSchema, submitAnswerSchema } from '@/lib/validations/questions';
 import { z } from 'zod';
+import { checkAndAwardBadges } from '@/actions/badges';
 
 export async function getQuestions(input: z.infer<typeof getQuestionsSchema>) {
     const session = await auth();
@@ -165,12 +166,16 @@ export async function submitAnswer(input: z.infer<typeof submitAnswerSchema>) {
 
     revalidatePath('/questions'); // Revalidate list to update icons and badges
     revalidatePath(`/questions/${questionId}`);
+    revalidatePath('/dashboard');
+
+    const newBadges = await checkAndAwardBadges(session.user.id);
 
     return {
         isCorrect,
         correctOptionIndex: question.correctOptionIndex,
         explanation: question.explanation,
         explanationHi: question.explanationHi,
+        newBadges
     };
 }
 
@@ -209,4 +214,39 @@ export async function toggleBookmark(questionId: string) {
 
     revalidatePath('/questions');
     return { isBookmarked };
+}
+export async function getQuestion(id: string) {
+    const session = await auth();
+    const userId = session?.user?.id;
+
+    const questions = await prisma.$queryRawUnsafe(
+        `SELECT * FROM Question WHERE id = '${id}'`
+    ) as any[];
+    const q = questions[0];
+
+    if (!q) return null;
+
+    // Fetch progress, occurrences and media
+    const [progressResult, occurrences, media] = await Promise.all([
+        userId ? prisma.$queryRawUnsafe(`SELECT * FROM UserProgress WHERE userId = '${userId}' AND questionId = '${id}'`) : Promise.resolve([]),
+        prisma.$queryRawUnsafe(`SELECT * FROM QuestionOccurrence WHERE questionId = '${id}'`),
+        prisma.$queryRawUnsafe(`SELECT * FROM Media WHERE questionId = '${id}'`)
+    ]) as [any[], any[], any[]];
+
+    const progress = progressResult[0];
+
+    return {
+        ...q,
+        occurrences,
+        media,
+        options: q.options ? JSON.parse(q.options as string) : [],
+        userStatus: progress
+            ? {
+                isSolved: progress.isSolved,
+                isCorrect: progress.isCorrect,
+                isBookmarked: progress.isBookmarked,
+                status: progress.status
+            }
+            : null,
+    };
 }

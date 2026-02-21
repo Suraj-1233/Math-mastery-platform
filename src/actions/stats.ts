@@ -3,6 +3,7 @@
 
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
+import { mockTests } from '@/data/mockTests';
 
 export async function getUserStats(targetYear?: number) {
     const session = await auth();
@@ -119,4 +120,23 @@ export async function getUserStats(targetYear?: number) {
         subjectWise,
         activityData,
     };
+}
+export async function getUserTestAttempts() {
+    const session = await auth();
+    if (!session?.user?.id) return null;
+
+    const userId = session.user.id;
+
+    // Use queryRaw to ensure we get results even if schema/client are out of sync
+    const attempts = await prisma.$queryRawUnsafe(`
+        SELECT uta.*
+        FROM UserTestAttempt uta
+        WHERE uta.userId = '${userId}'
+        ORDER BY uta.startedAt DESC
+    `) as any[];
+
+    return attempts.map(a => ({
+        ...a,
+        test: mockTests.find(t => t.id === a.testId)
+    }));
 }

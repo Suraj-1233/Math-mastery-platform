@@ -1,9 +1,9 @@
-
 import type { Metadata } from 'next';
 import { Inter } from 'next/font/google';
 import './globals.css';
 import { Navbar } from '@/components/layout/navbar';
 import { NavbarWrapper } from '@/components/layout/NavbarWrapper';
+import { ToastProvider } from '@/contexts/ToastContext';
 
 const inter = Inter({ subsets: ['latin'] });
 
@@ -20,10 +20,12 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className={inter.className} suppressHydrationWarning>
-        <NavbarWrapper>
-          <Navbar />
-        </NavbarWrapper>
-        {children}
+        <ToastProvider>
+          <NavbarWrapper>
+            <Navbar />
+          </NavbarWrapper>
+          {children}
+        </ToastProvider>
       </body>
     </html>
   );
