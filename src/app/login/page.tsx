@@ -4,11 +4,18 @@ import { Target } from 'lucide-react';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
 
-export default async function LoginPage() {
+type Props = {
+    searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+export default async function LoginPage({ searchParams }: Props) {
     const session = await auth();
     if (session?.user) {
         redirect('/dashboard');
     }
+
+    const resolvedParams = await searchParams;
+    const authMessage = typeof resolvedParams?.message === 'string' ? resolvedParams.message : null;
     return (
         <main className="flex min-h-screen bg-gray-50">
             {/* Left half: Image/Branding */}
@@ -45,10 +52,18 @@ export default async function LoginPage() {
                         <span className="text-2xl font-bold text-gray-900">Math Mastery</span>
                     </div>
 
-                    <div className="text-center mb-8">
+                    <div className="text-center mb-6">
                         <h2 className="text-3xl font-bold text-gray-900">Welcome Back</h2>
                         <p className="text-sm text-gray-500 mt-2">Log in to track your progress and continue learning.</p>
                     </div>
+
+                    {authMessage && (
+                        <div className="mb-6 p-4 rounded-lg bg-orange-50 border border-orange-200">
+                            <p className="text-sm text-orange-800 text-center font-medium">
+                                🔒 {authMessage}
+                            </p>
+                        </div>
+                    )}
 
                     <LoginForm />
 
