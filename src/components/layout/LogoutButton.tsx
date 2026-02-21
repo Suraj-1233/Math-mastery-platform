@@ -1,18 +1,14 @@
 'use client';
 
 import { LogOut } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { logout } from '@/actions/auth';
 
 export function LogoutButton() {
-    const router = useRouter();
-
     const handleLogout = async () => {
         const isConfirmed = window.confirm("Are you sure you want to log out?");
 
         if (isConfirmed) {
-            // Need to hit a client-compatible server action or api endpoint for NextAuth logout.
-            // Using a simple form submission or redirect can trigger NextAuth to kill the session.
-            router.push('/api/auth/signout?callbackUrl=/login');
+            await logout();
         }
     };
 

@@ -1,7 +1,7 @@
 
 'use server';
 
-import { signIn } from '@/auth';
+import { signIn, signOut } from '@/auth';
 import { AuthError } from 'next-auth';
 import { z } from 'zod';
 import { loginSchema, signupSchema } from '@/lib/validations/auth';
@@ -11,6 +11,10 @@ import { redirect } from 'next/navigation';
 
 export async function googleSignIn() {
     await signIn('google');
+}
+
+export async function logout() {
+    await signOut({ redirectTo: '/login' });
 }
 
 export async function authenticate(
