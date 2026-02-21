@@ -1,8 +1,14 @@
 import LoginForm from '@/components/auth/login-form';
 import Link from 'next/link';
 import { Target } from 'lucide-react';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-export default function LoginPage() {
+export default async function LoginPage() {
+    const session = await auth();
+    if (session?.user) {
+        redirect('/dashboard');
+    }
     return (
         <main className="flex min-h-screen bg-gray-50">
             {/* Left half: Image/Branding */}

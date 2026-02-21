@@ -1,8 +1,14 @@
 import SignupForm from '@/components/auth/signup-form';
 import Link from 'next/link';
 import { Target, Trophy } from 'lucide-react';
+import { auth } from '@/auth';
+import { redirect } from 'next/navigation';
 
-export default function SignupPage() {
+export default async function SignupPage() {
+    const session = await auth();
+    if (session?.user) {
+        redirect('/dashboard');
+    }
     return (
         <main className="flex min-h-screen bg-gray-50">
             {/* Left half: Image/Branding */}
