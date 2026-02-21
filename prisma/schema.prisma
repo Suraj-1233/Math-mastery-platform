@@ -5,6 +5,7 @@ datasource db {
 
 generator client {
   provider = "prisma-client-js"
+  output   = "../src/generated/client"
 }
 
 model User {
@@ -23,18 +24,57 @@ model User {
 model Question {
   id                String     @id @default(cuid())
   text              String     // Markdown/LaTeX supported
-  options           String     // Store JSON stringified array
+  textHi            String?    // Hindi translated text
+  options           String     // JSON: Array of { text: string, imageUrl?: string }
   correctOptionIndex Int
   explanation       String?    // Detailed solution
+  explanationHi     String?    // Hindi translated explanation
   subject           String
+  topic             String?
   difficulty        String     @default("MEDIUM")
   examType          String     // e.g., "SSC_CGL", "RAILWAY"
-  tags              String?    // Store comma-separated tags
+  year              Int?
+  imageUrl          String?    // Primary feature image
+  tags              String?    // comma-separated
   isPremium         Boolean    @default(false)
-  createdAt         DateTime   @default(now())
+  questionType      String     @default("MCQ") // MCQ, NUMERIC, TRUE_FALSE
+  metadata          String?    // Flat JSON for extra props (source, specific exam shift, etc.)
+  solveAttemptCount Int        @default(0)
+  wrongAttemptCount Int        @default(0)
+  createdAt          DateTime   @default(now())
+  updatedAt          DateTime   @updatedAt
 
+  occurrences       QuestionOccurrence[]
+  media             Media[]
   userProgress      UserProgress[]
+
+  @@index([difficulty])
+  @@index([solveAttemptCount])
 }
+
+model QuestionOccurrence {
+  id         String   @id @default(cuid())
+  examName   String   // e.g., "SSC CGL"
+  year       Int      // e.g., 2023
+  shift      String?  // e.g., "Morning", "Shift 2"
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+}
+
+
+model Media {
+  id         String   @id @default(cuid())
+  url        String
+  type       String   @default("IMAGE") // IMAGE, VIDEO, PDF
+  caption    String?
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt  DateTime @default(now())
+}
+
 
 model UserProgress {
   id          String   @id @default(cuid())

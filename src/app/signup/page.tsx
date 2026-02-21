@@ -7,7 +7,7 @@ import { redirect } from 'next/navigation';
 export default async function SignupPage() {
     const session = await auth();
     if (session?.user) {
-        redirect('/dashboard');
+        redirect('/questions');
     }
     return (
         <main className="flex min-h-screen bg-gray-50">

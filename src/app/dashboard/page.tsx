@@ -20,7 +20,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
         )
     }
 
-    const { totalSolved, accuracy, currentStreak, subjectWise, activityData } = stats;
+    const { totalSolved, accuracy, currentStreak, rank, percentile, subjectWise, activityData } = stats;
 
     return (
         <div className="min-h-screen bg-gray-50 pb-12">
@@ -113,7 +113,7 @@ export default async function DashboardPage({ searchParams }: { searchParams: Pr
                                         </dt>
                                         <dd>
                                             <div className="text-lg font-medium text-gray-900">
-                                                #124 (Top 10%)
+                                                #{rank} (Top {percentile}%)
                                             </div>
                                         </dd>
                                     </dl>

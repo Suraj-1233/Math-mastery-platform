@@ -17,7 +17,7 @@ This folder contains a reliable Playwright-CLI workflow script for the Math Mast
 ## Prerequisites
 
 - Node.js/npm (`npx` available)
-- App running locally (default: `http://127.0.0.1:3000`)
+- App running locally (default: `http://localhost:3000`)
 - Playwright CLI wrapper skill installed at:
   - `$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh`
 
@@ -37,7 +37,7 @@ HEADED=1 bash script/playwright/auth_practice_flow.sh
 ### Optional custom inputs
 
 ```bash
-BASE_URL="http://127.0.0.1:3000" \
+BASE_URL="http://localhost:3000" \
 E2E_USER_NAME="QA Bot" \
 E2E_USER_EMAIL="qa.bot.math@example.com" \
 E2E_USER_PASSWORD="StrongPass123!" \
@@ -45,6 +45,8 @@ PLAYWRIGHT_SESSION="mmqa" \
 OUTPUT_DIR="$(pwd)/output/playwright/auth-practice-flow" \
 bash script/playwright/auth_practice_flow.sh
 ```
+
+Use `localhost` (not `127.0.0.1`) for auth flows in this app so session cookies and redirects stay on the same host.
 
 ## Output artifacts
 

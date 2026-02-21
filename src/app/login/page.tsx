@@ -11,7 +11,7 @@ type Props = {
 export default async function LoginPage({ searchParams }: Props) {
     const session = await auth();
     if (session?.user) {
-        redirect('/dashboard');
+        redirect('/questions');
     }
 
     const resolvedParams = await searchParams;

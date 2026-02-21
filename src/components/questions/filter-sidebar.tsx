@@ -4,18 +4,44 @@
 import { useSearchParams, usePathname, useRouter } from 'next/navigation';
 import { useDebouncedCallback } from 'use-debounce';
 
+const SUBJECT_TOPICS: Record<string, string[]> = {
+    'Math': [
+        'Percentage', 'Profit & Loss', 'Algebra', 'Number System',
+        'Trigonometry', 'Geometry', 'Time Speed Distance', 'Time & Work'
+    ],
+    'English': [
+        'Grammar', 'Vocabulary', 'Reading Comprehension', 'Cloze Test'
+    ],
+    'Reasoning': [
+        'Analogy', 'Number Series', 'Syllogism', 'Blood Relations', 'Coding Decoding'
+    ],
+    'GS': [
+        'History', 'Geography', 'Polity', 'Science', 'Economics'
+    ]
+};
+
 export function FilterSidebar() {
     const searchParams = useSearchParams();
     const pathname = usePathname();
     const { replace } = useRouter();
 
+    const currentSubject = searchParams.get('subject') || '';
+    const availableTopics = currentSubject ? SUBJECT_TOPICS[currentSubject] || [] : [];
+
     const handleFilter = useDebouncedCallback((key: string, value: string) => {
         const params = new URLSearchParams(searchParams);
+
         if (value) {
             params.set(key, value);
         } else {
             params.delete(key);
         }
+
+        // If subject changes, clear topic
+        if (key === 'subject') {
+            params.delete('topic');
+        }
+
         replace(`${pathname}?${params.toString()}`);
     }, 300);
 
@@ -36,14 +62,45 @@ export function FilterSidebar() {
                 <h3 className="mb-2 font-medium">Subject</h3>
                 <select
                     className="input-base w-full"
-                    defaultValue={searchParams.get('subject')?.toString()}
+                    value={currentSubject}
                     onChange={(e) => handleFilter('subject', e.target.value)}
                 >
                     <option value="">All Subjects</option>
-                    <option value="Mathematics">Mathematics</option>
-                    <option value="Reasoning">Reasoning</option>
-                    <option value="English">English</option>
-                    <option value="General_Awareness">General Awareness</option>
+                    {Object.keys(SUBJECT_TOPICS).map(subject => (
+                        <option key={subject} value={subject}>{subject}</option>
+                    ))}
+                </select>
+            </div>
+
+            {pathname === '/pyqs' && (
+                <div>
+                    <h3 className="mb-2 font-medium">Exam</h3>
+                    <select
+                        className="input-base w-full"
+                        defaultValue={searchParams.get('examType')?.toString()}
+                        onChange={(e) => handleFilter('examType', e.target.value)}
+                    >
+                        <option value="">All Exams</option>
+                        <option value="SSC CGL Tier 1">SSC CGL Tier 1</option>
+                        <option value="SSC CGL Tier 2">SSC CGL Tier 2</option>
+                        <option value="SSC CHSL">SSC CHSL</option>
+                        <option value="SSC CPO">SSC CPO</option>
+                    </select>
+                </div>
+            )}
+
+            <div>
+                <h3 className="mb-2 font-medium">Topic</h3>
+                <select
+                    className="input-base w-full"
+                    value={searchParams.get('topic') || ''}
+                    disabled={!currentSubject}
+                    onChange={(e) => handleFilter('topic', e.target.value)}
+                >
+                    <option value="">{currentSubject ? 'All Topics' : 'Select Subject First'}</option>
+                    {availableTopics.map(topic => (
+                        <option key={topic} value={topic}>{topic}</option>
+                    ))}
                 </select>
             </div>
 
@@ -69,7 +126,7 @@ export function FilterSidebar() {
                             type="radio"
                             name="status"
                             value=""
-                            defaultChecked={!searchParams.get('status')}
+                            checked={!searchParams.get('status')}
                             onChange={() => handleFilter('status', '')}
                         />
                         <span>All</span>
@@ -79,7 +136,7 @@ export function FilterSidebar() {
                             type="radio"
                             name="status"
                             value="SOLVED"
-                            defaultChecked={searchParams.get('status') === 'SOLVED'}
+                            checked={searchParams.get('status') === 'SOLVED'}
                             onChange={() => handleFilter('status', 'SOLVED')}
                         />
                         <span>Solved</span>
@@ -89,7 +146,7 @@ export function FilterSidebar() {
                             type="radio"
                             name="status"
                             value="UNSOLVED"
-                            defaultChecked={searchParams.get('status') === 'UNSOLVED'}
+                            checked={searchParams.get('status') === 'UNSOLVED'}
                             onChange={() => handleFilter('status', 'UNSOLVED')}
                         />
                         <span>Unsolved</span>
@@ -99,7 +156,7 @@ export function FilterSidebar() {
                             type="radio"
                             name="status"
                             value="BOOKMARKED"
-                            defaultChecked={searchParams.get('status') === 'BOOKMARKED'}
+                            checked={searchParams.get('status') === 'BOOKMARKED'}
                             onChange={() => handleFilter('status', 'BOOKMARKED')}
                         />
                         <span>Bookmarked</span>

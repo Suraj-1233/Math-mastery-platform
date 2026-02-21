@@ -23,8 +23,48 @@ async function getUser(email: string) {
     }
 }
 
-export const { auth, signIn, signOut } = NextAuth({
+export const { handlers, auth, signIn, signOut } = NextAuth({
     ...authConfig,
+    callbacks: {
+        ...authConfig.callbacks,
+        async signIn({ user, account, profile }) {
+            if (account?.provider === 'google') {
+                if (!user.email) return false;
+
+                try {
+                    const existingUser = await prisma.user.findUnique({
+                        where: { email: user.email }
+                    });
+
+                    if (!existingUser) {
+                        // Create a new user for Google login
+                        const newUser = await prisma.user.create({
+                            data: {
+                                email: user.email,
+                                name: user.name || 'Google User',
+                                // Note: We leave password null or empty since they use OAuth
+                                password: '',
+                            }
+                        });
+                        user.id = newUser.id;
+                    } else {
+                        user.id = existingUser.id;
+                    }
+                    return true;
+                } catch (error) {
+                    console.error('Error during Google sign-in mapping:', error);
+                    return false;
+                }
+            }
+            return true; // allow credentials sign-in
+        },
+        async jwt({ token, user, account }) {
+            if (user) {
+                token.sub = user.id;
+            }
+            return token;
+        }
+    },
     providers: [
         Google({
             clientId: process.env.GOOGLE_CLIENT_ID || '',

@@ -10,7 +10,7 @@ import bcrypt from 'bcryptjs';
 import { redirect } from 'next/navigation';
 
 export async function googleSignIn() {
-    await signIn('google', { redirectTo: '/dashboard' });
+    await signIn('google', { redirectTo: '/questions' });
 }
 
 export async function logout() {
@@ -32,7 +32,7 @@ export async function authenticate(
     const { email, password } = parsed.data;
 
     try {
-        await signIn('credentials', { email, password, redirectTo: '/dashboard' });
+        await signIn('credentials', { email, password, redirectTo: '/questions' });
     } catch (error) {
         if (error instanceof AuthError) {
             switch (error.type) {

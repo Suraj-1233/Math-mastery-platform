@@ -11,6 +11,8 @@ export default async function QuestionBankPage({
         search?: string;
         page?: string;
         subject?: string;
+        topic?: string;
+        examType?: string;
         difficulty?: 'EASY' | 'MEDIUM' | 'HARD';
         status?: 'SOLVED' | 'UNSOLVED' | 'BOOKMARKED';
     }>;
@@ -22,6 +24,8 @@ export default async function QuestionBankPage({
         limit: 10,
         search: resolvedSearchParams.search,
         subject: resolvedSearchParams.subject,
+        topic: resolvedSearchParams.topic,
+        examType: resolvedSearchParams.examType,
         difficulty: resolvedSearchParams.difficulty,
         status: resolvedSearchParams.status,
         sortBy: 'newest', // Default sort

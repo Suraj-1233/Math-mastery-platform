@@ -16,14 +16,17 @@ export async function Navbar() {
                         ExamPrep
                     </Link>
                     <div className="ml-10 hidden space-x-8 md:flex">
-                        <Link href="/dashboard" className="text-sm font-medium text-gray-700 hover:text-blue-600">
-                            Dashboard
-                        </Link>
                         <Link href="/questions" className="text-sm font-medium text-gray-700 hover:text-blue-600">
                             Practice
                         </Link>
+                        <Link href="/pyqs" className="text-sm font-medium text-gray-700 hover:text-blue-600">
+                            PYQs
+                        </Link>
                         <Link href="/tests" className="text-sm font-medium text-gray-700 hover:text-blue-600">
                             Mock Tests
+                        </Link>
+                        <Link href="/dashboard" className="text-sm font-medium text-gray-700 hover:text-blue-600">
+                            Dashboard
                         </Link>
                     </div>
                 </div>

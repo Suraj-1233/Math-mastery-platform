@@ -21,7 +21,7 @@ export const authConfig = {
             if (isPublicRoute) {
                 // If the user tries to go to login or signup while ALREADY logged in, redirect them home
                 if (isLoggedIn && (nextUrl.pathname === '/login' || nextUrl.pathname === '/signup')) {
-                    return Response.redirect(new URL('/dashboard', nextUrl));
+                    return Response.redirect(new URL('/questions', nextUrl));
                 }
                 return true;
             }

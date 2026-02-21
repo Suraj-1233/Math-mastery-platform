@@ -25,7 +25,7 @@ if [[ ! -x "$PWCLI" ]]; then
   exit 1
 fi
 
-BASE_URL="${BASE_URL:-http://127.0.0.1:3000}"
+BASE_URL="${BASE_URL:-http://localhost:3000}"
 PLAYWRIGHT_SESSION="${PLAYWRIGHT_SESSION:-mmflow}"
 HEADED="${HEADED:-0}"
 E2E_USER_NAME="${E2E_USER_NAME:-Codex Browser User}"
@@ -116,7 +116,11 @@ async (page) => {
   const password = __USER_PASSWORD__;
   const timeout = 25000;
 
-  const appUrl = (path) => new URL(path, baseUrl).toString();
+  const appUrl = (path) => {
+    const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    const route = path.startsWith('/') ? path : `/${path}`;
+    return `${base}${route}`;
+  };
 
   const settle = async () => {
     await page.waitForLoadState('domcontentloaded', { timeout }).catch(() => {});
@@ -132,9 +136,9 @@ async (page) => {
     return page.getByText(text, { exact: false }).first().isVisible().catch(() => false);
   };
 
-  const onDashboard = async () => {
-    if (page.url().includes('/dashboard')) return true;
-    return page.getByRole('heading', { name: 'Dashboard' }).first().isVisible().catch(() => false);
+  const onAuthenticatedPage = async () => {
+    if (page.url().includes('/login') || page.url().includes('/signup')) return false;
+    return page.getByRole('button', { name: 'Log out' }).first().isVisible().catch(() => false);
   };
 
   const login = async () => {
@@ -145,13 +149,13 @@ async (page) => {
 
     const deadline = Date.now() + timeout;
     while (Date.now() < deadline) {
-      if (await onDashboard()) return 'success';
+      if (await onAuthenticatedPage()) return 'success';
       if (await visibleText('Invalid credentials.')) return 'invalid';
       if (await visibleText('Something went wrong.')) return 'error';
       await page.waitForTimeout(250);
     }
 
-    return (await onDashboard()) ? 'success' : 'timeout';
+    return (await onAuthenticatedPage()) ? 'success' : 'timeout';
   };
 
   const signup = async () => {
@@ -174,7 +178,7 @@ async (page) => {
   };
 
   await goto('/dashboard');
-  if (await onDashboard()) return;
+  if (await onAuthenticatedPage()) return;
 
   let loginResult = await login();
   if (loginResult === 'success') return;
@@ -191,7 +195,7 @@ async (page) => {
     throw new Error(`Login after signup failed with result: ${loginResult}`);
   }
 
-  if (await onDashboard()) return;
+  if (await onAuthenticatedPage()) return;
   throw new Error(`Login flow failed with result: ${loginResult}`);
 }
 JS
@@ -209,7 +213,11 @@ async (page) => {
   const outputDir = __OUTPUT_DIR__;
   const timeout = 25000;
 
-  const appUrl = (path) => new URL(path, baseUrl).toString();
+  const appUrl = (path) => {
+    const base = baseUrl.endsWith('/') ? baseUrl.slice(0, -1) : baseUrl;
+    const route = path.startsWith('/') ? path : `/${path}`;
+    return `${base}${route}`;
+  };
   const settle = async () => {
     await page.waitForLoadState('domcontentloaded', { timeout }).catch(() => {});
     await page.waitForLoadState('networkidle', { timeout: 7000 }).catch(() => {});
@@ -245,15 +253,26 @@ async (page) => {
     await page.screenshot({ path: `${outputDir}/04-practice-next.png`, fullPage: true });
   }
 
-  page.once('dialog', async (dialog) => {
-    await dialog.accept();
-  });
+  await page.goto(appUrl('/api/auth/signout?callbackUrl=/login'), { waitUntil: 'domcontentloaded', timeout });
+  await settle();
+  const signoutButton = page.getByRole('button', { name: 'Sign out' }).first();
+  if (await signoutButton.isVisible().catch(() => false)) {
+    await signoutButton.click();
+  }
+  const loggedOut = await (async () => {
+    const deadline = Date.now() + timeout;
+    while (Date.now() < deadline) {
+      if (page.url().includes('/login')) return true;
+      const hasLoginHeading = await page.getByRole('heading', { name: 'Welcome Back' }).first().isVisible().catch(() => false);
+      if (hasLoginHeading) return true;
+      await page.waitForTimeout(250);
+    }
+    return false;
+  })();
 
-  const logoutButton = page.getByRole('button', { name: 'Log out' }).first();
-  await logoutButton.waitFor({ state: 'visible', timeout });
-  await logoutButton.click();
-
-  await page.waitForURL(/\/login/, { timeout });
+  if (!loggedOut) {
+    throw new Error(`Logout did not redirect to login. Current URL: ${page.url()}`);
+  }
   await page.screenshot({ path: `${outputDir}/05-logged-out.png`, fullPage: true });
 }
 JS
