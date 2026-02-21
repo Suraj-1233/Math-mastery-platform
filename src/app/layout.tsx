@@ -1,0 +1,30 @@
+
+import type { Metadata } from 'next';
+import { Inter } from 'next/font/google';
+import './globals.css';
+import { Navbar } from '@/components/layout/navbar';
+import { NavbarWrapper } from '@/components/layout/NavbarWrapper';
+
+const inter = Inter({ subsets: ['latin'] });
+
+export const metadata: Metadata = {
+  title: 'Government Exam Prep Platform',
+  description: 'Practice MCQs, track progress, and ace your exams.',
+};
+
+export default function RootLayout({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  return (
+    <html lang="en">
+      <body className={inter.className} suppressHydrationWarning>
+        <NavbarWrapper>
+          <Navbar />
+        </NavbarWrapper>
+        {children}
+      </body>
+    </html>
+  );
+}

@@ -1,0 +1,1040 @@
+PrismaClientValidationError: 
+Invalid `__TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Expriment$2f$math$2f$math$2d$mastery$2d$platform$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].question.createMany()` invocation in
+/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/[root-of-the-server]__9bab3249._.js:113:221
+
+  110 let inserted = 0;
+  111 for(let i = 0; i < formattedQuestions.length; i += chunkSize){
+  112     const chunk = formattedQuestions.slice(i, i + chunkSize);
+→ 113     await __TURBOPACK__imported__module__$5b$project$5d2f$Desktop$2f$Expriment$2f$math$2f$math$2d$mastery$2d$platform$2f$src$2f$lib$2f$prisma$2e$ts__$5b$app$2d$route$5d$__$28$ecmascript$29$__["default"].question.createMany({
+            data: [
+              {
+                id: "Q_0001",
+                text: "0675, J5» Vil + -1= 12 atib  5+3i Real Numbers Rational Numbers Irrational Numbers which can be written in can not be written in BP 5 form (q#0) p, q > Int q form. ex, 2,3, 0.5555, _0.1942607592.... 2 Ja, = 3.141592 .... Decimal Numbers Terminating Non-Terminating Non-terminating decimal Repeating decimal Non-repeating decimal 1 1",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Compound Interest",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0002",
+                text: "5 = 2 0.333333...= 3 ¥2=1.414.... 73 56",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "General Mathematics",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0003",
+                text: "73 = 599  0-565656...= 55 t 81 137",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "General Mathematics",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0004",
+                text: "648 = [2s 0.137137137...= 999 Irrational Rational Numbers Numbers Cc) Number System NUMBER SYSTEM “ Integers + All integers are rational number. (2) where q = 1 Non-negative Integers Negative Integers Oa ere fe, ....-4, 3, -2, -}} 0 > Neither positive nor negative Whole Numbers “ Natural numbers > {1,2,3,4,5,.....} Even Odd Even — which are divisible by 2. (2K form) {0, 2, 4, 6, 8) Odd — which are not divisible by 2. (2K + 1 form) {1, 3, 5, 7, 11} % Odd x odd odd odd * even — even oddtodd — even even + even — even odd + even — odd a+b=odd odd+odd _ even ° a=——a__ =~ Q_ = Natural No. a-b=odd atb= even+even _ even a=——a__ > g = Natural No. a-b= at+b=even a-b=odd Natural numbers Prime numbers Composite numbers Prime Numbers — Only two factors 1 & itself. 2, 3, 5, 7, 11, 13, 23, 61, 67, 97 etc. 2 — even prime no. & smallest prime no. 3,5,7 + only pair of consecutive odd prime no. 1-50 > 15 50-100 10 1-100 + 25 1-200 > 46 1-1000 > 168 CHAGPION puscication Prime no.",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0005",
+                text: "— Last digit should be 0 or S 25 — Last two digit should be divisible by 25.",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0006",
+                text: "~ Last 3 digit should be divisible by 125. Divisibility Rule of 6",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0007",
+                text: "-» 6=2x3 (co-prime factors) - «. If a number is divisible by 2 & 3 both, that (a3 +b’) = (a+b) [atb?-a°b! + a’b? - alb%-a°b'] = (a+b) (at —a°b + a*b? — ab? + b*) *. a\" + b® > n odd — (a+b) is a factor always. number will also be divisible by 6 No. of the form Div. by (atb) Div. by (a~b) Di y Rule of 7, 11, 13 1. a+b\" (n > odd) vs x 5922 -» Make pair of 3 digits from RHS 2. amrb* (a > even) = : ~ Add alternate pairs & take difference Rpt ad on is [ ~ If difference is divisible by 7, 11, 13 then 4. a'-b* (n — even) number will be divisible by 7, 11, 13 If Power is odd > respectively a®+b*+c\"+d° is divisible by (atb+c+d) PEA Gogen Pretp Sir CD» CHAGPIONrvsiication ” Fermat's Theorem — P = 1 (Remainder) p = prime number a, p > co-prime 16 eo Re1 (axtk)’ , ri = Remainder > K\" a fxs, Remainder = 1\" = 1 (exe —» Remainder = (-Iq* (2x1) — Remainder = (-1)\" n=even n=odd 1 -1 Consecutive Remainder Vd bod me",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0008",
+                text: "8697(511 485 a9 217 of consecutive remainder = 1, 2, 10 Divisor -> HCF [85, 17, 17] 7217 Successive Division Divide 620 by 8, 5, 6 successively 8 é ee (77 5 ye 15 20 oT 6 3 2—>Final Quotient >56 25 @ © successive remainders — 4, 2, 3 OR 620) 4 7712 Successive remainders 3 wl] a|aoo al * Final quotient Factors are the positive integers that can divide a number exactly. Properties of factors 1 is a factor of every number. Every natural number is a factor of itself. Apart from 1 all natural numbers have atleast two factors. ¢ OR Numoer oysicm Number of Factors (NOF) 12 + 12, 24, 36, 48, 60 .... (multiples) 12> 1, 2, 3, 4, 6, 12 (factors) NOF of 12 +6 perfect square NOF > 2 Even NOF of 12 > 4 perfect cube NOF > 1 odd NOF of 12 +2 NOF of multiple of 3 > 3 72 -» 22x 3? (write in prime base) [2° 2! 2? 2'] y 3'3'] OR 4 x 3 = 12 combinations / «. NOF > 12 Direct: NOF = (power + 1) * (power + 1)... NOF of 72 +» (3+1) * (2+1) 3 4 * 3712 N= atx bY x c* a,b,c > prime number NOF of N = (x#1) (y+1)(z+1) Sum of factors (SOF) 72> [2°+2!+22+23]x[3°+3'+37] =15%*13=195 2160 — 2*«3°x5! SOF -> (29+21+2?+29+2\")x (39431437439) x(5°#5!) — 31x40x6 > 7440 a{r°-1 Sum of factors > ~(;—7) — GP . 1(2°-1) | 1(3*-1) (5° -1) Q-1 3-1 5-1 > 31%* 40x 6= 7440 2160 = 2%«3°x5! Even factors > minimum 2' NOF = 5x4x2=40 (2° 23 2? 29.28) x (3° 3! 3? 39) x (5° 5!) Even NOF > 4 x 4x 2 > 32 OR 2160 = 2'*3°x5? —> 2(29x3?x5!) L 4x4x2 = 32 Sum of even factors  30x40x6 > 7200 No. of odd factors > 40-32 = 8 No. of odd factors > Absence of 2",
+                options: "[\"\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0009",
+                text: "2160 = 2* x 3° x 515 4x2=8 Sum of odd factors + 40 x 6 = 240 2160 = 2* x33 x 5! (2° 2} 22 23 24) (3° 3! 3? 3%) (5° 5!) Number of factors which are multiple of 18 > 18=2!x3? “. minimum 2! and 3? required for multiple of 18. 7>4x*x2*x2=16 OR 2160 = 2% x 33 x 5! — 2x37[23x3'x5!] + 4x2x2=(@) CHAGPION puecication",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Percentage",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0010",
+                text: "If a number K = 42 x 25 * 54 * 135 is divisible by 3a, then find the maximum value of a? {CGL 2022 Pre) 5 -digit number 678p37q is divisible by 75 and p is not a composite, then the values of p and q are:  (ajp=S,q-5 ()p=3,q=5 @)p=2,q=5 Any six-digit number that is formed by repeating a three- digit number, is always divisible by:  {c) 19 (a) 101 If the seven-digit number 52A6B7C is divisible by 33, and A, B, C are primes, then the maximum value of 2A+3B+C is:  {a)6 6 + 6% + 6” + 6% is divisible by:  Which of the following numbers is divisible by 36?  Which of the numbers 9592450, 9592330, 9592885 and 9592741 is divisible by 11?  Which number among 34936, 35508, 35580 and 36508 is divisible by 33?  Which of the following numbers is divisible by 99?  Which of the following numbers is divisible by 44?  A four-digit number abba is divisible by 4 and a<b. How many such numbers are there?",
+                options: "[\"7\",\"p=3,q=0\",\"111 (b) 1001\",\"32 (b) 23\",\"27 (d) 34\",\"256 (b) 254\",\"255 (d) 259\",\"47502 (b) 29412\",\"54732 (a) 87064\",\"9592885 (b) 9592741\",\"9592450 (d) 9592330\",\"35508 (b) 35580\",\"36508 (d) 34936\",\"31548 (b) 60687\",\"44775 (d) 84456\",\"32802 (b) 54736\",\"93472 (d) 27048\",\"10 (b) 8\",\"12 (a6\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0011",
+                text: "A 6-digit number has digits as consecutive natural numbers. The number is always divisible by 3  How many of the following numbers are divisible by 3 but NOT by 9? ({CGL 2023 Pre) 5826, 5964, 6039, 6336, 6489, 6564, 6867 and 6960 {a)5 (b) 3 The five-digit number 45yz20 is divisible by 40. What is the maximum possible value of (y + 2)?  Replace*by the smallest digit so that 723*56*6 is dividible by 6. ({CGL 2024 Pre) {c)2 (dl If 321y72 is a multiple of 6, where y is a digit, what is the least value of y?  If 436P5 is divisible by 3, then the largest value of P is:  {a)12 (b) 6 The number 4,29,714 is divisible by:  Which composite number can divide the sum of the first 12 natural numbers?  78 + 76+ 77 is divisible by which of the following given numbers?  . For what least value of n, 27\" +2n is completely divided by 6, where n is an integer?  {a)3 (1 {c)0 (2 If m is even, then (8™ - 1) is divisible by:   =)",
+                options: "[\"4 (b) 5\",\"2 (d)3\",\"4 (d) 6 ;\",\"15 (b) 18\",\"16 (4) 17\",\"4 (b)3\",\"3 (b)0\",\"7 (d)2\",\"8 (a9\",\"3and5 (bo) 6 and S\",\"4and6 (d)3and6\",\"6 (b) 12\",\"4 (a8\",\"3 (b) 5\",\"4 (a)4\",\"63 (b) 42\",\"65 (ds\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0012",
+                text: "» Which of Number From the given numbers \" A,B C and D, which number ig yo’ divisible by 112 SNOT A = 712712, B = 177210, g 64614, D = 756148 as System (CGL 20; lac op ()B (aa Find the greatest value of 4° ie 6-digit number 6745k2 such a the number is divisible by 3,\" (CGL 202. (ale we The least number whic! be subtracted from Ta7eT as to obtain a sum that nd divisible by 11 is:(c@x 2024 Pe {5 (a2 Which digits should come in the place of * and # respectively, if the 7-digit number 62684*# is divisible } both 8and SP  If 7845K854 is divisible by 11 then what is the value of kp»  Which of following numbers is NOT divisible by 11? (CGL 2024 Pre Find the smallest value that must be assigned to number ‘a’ in order for 91876a2 to be divisible by 8.  Which digits should come in place * and $, respectively, if the number 72864*$ is divisible by both 8 and 5?  the following numbers is divisible by 2, 5, 10 and 11?  Find the least value of k for which a 7-digit number 249k876 is divisible by 6.",
+                options: "[\"9 (d)7\",\"3 (b) 1\",\"2and0 (b)4 ando\",\"5and0 (d)Oand5,\",\"6 (b) 9\",\"7 @s\",\"109153 —(b) 5445\",\"128041 (d) 80124\",\"3 (b) 0\",\"1 (d)2\",\"4and0  (b)2 andO\",\"2and5 (d)4 and 5\",\"203467 —(b) 830942\",\"589270 — (d) 1234560\",\"1 (b) 0\",\"5 (7\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0013",
+                text: ". Which of the following can be the value of ‘k’ so that the number 217924k is divisible by 6?  Find the least value of x for which 57x716 is divisible by 9.  If P is a digit such that 6954P is divisible by 11, then P equals:  Which of the following numbers is divisible by 6?  Which of the following numbers is NOT divisible by 8?  Which of the following numbers is divisible by both 2 and 5?  If the seven digits number 56x34 y¢4 is divisible by 72, then what is the least value of (x+y)?  » The number 106974 is divisible by which of the single digit numbers:  . The number 45789 is divisible by which of the single digit numbers:  If the six-digit number 479xyz is exactly divisible by 7, 11 and 13, then {(y + z) +29 is equal to:  11 a> (4 13 a @) 33",
+                options: "[\"4 (b) 6\",\"2 (ao\",\"1 (b) 9\",\"O (48\",\"2 (b)8\",\"6 (d)7\",\"128530 = (b) 12581\",\"438750 — (d) 62233\",\"7344 (b) 5544\",\"7497 (4) 4608\",\"63840 (b) 20792\",\"37915 (d) 37254\",\"8 (b) 12\",\"5 (d) 14\",\"2, 3, 6 and 7 only\",\"2, 3 and 7 only\",\"2, 3 and 4 only\",\"2 and 3 only\",\"Only by 9\",\"Only by 3 and 9\",\"Only by 3\",\"Only by 3 and 7\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0014",
+                text: "If the S-digit number 538xy is divisible by 3,7 and 11, then the value of (x + y’) is: {CPO 2019 Pre) The number 1563241234351 is:  11 If six-digit number 5x2y6z is divisible by 7, 11 and 13. then the value of (x-y+3z) is:  If -the 9-digit number 72x8431y4 is divisible by 36, A 2 what is the value of y x for the smallest possible value of y, given that x and y are natural numbers?  5 dl l= 2— 2 9 pi 2=— (13 @ 25 How many of the following numbers are divisible by 156? 312, 620, 936, 1402, 1872, 3216, 7176, 8108. (CPO 2022 Pre} If the number 6336633P is divisible by 132, then the value of P is:  {a)4 (b) 2 What are the values of R and M, respectively, if the given number is perfectly divisible by 16 and 11?  34R05030M6 If the following numbers are exactly divisible by 9, then what are the values of & and # respectively?  51&918#0 Cc) Number System",
+                options: "[\"10 (b) 17\",\"25 (d) 13\",\"divisible by both 3 and 11\",\"divisible by 11 but not by 3\",\"divisible by 3 but not by 11\",\"neither divisible by 3 nor by\",\"9 (b) 7\",\"4 (d) 0\",\"1p 255\",\"5 ()3\",\"4 (d) 1\",\"3 (a) 6\",\"4and6 (b)7and5\",\"Sand5  (d)Sand7\",\"4and 5 (b) 8 and 4\",\"9 and 8 (d)2 and 2\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0015",
+                text: "What is the smallest perfect square number which is completely divisible by 4, 6, 9 12 and 15? (CPO 2023 Pre}",
+                options: "[\"784 (b) 900\",\"961 (d) 841\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Profit & Loss",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0016",
+                text: "If the eight-digit 79",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0017",
+                text: "(S_ssccus._ the nine-digit number 43x1145y2 is divisible by 88. then the value of (3x - 2y), for the smallest value of y, is: (CHSL 2018 Pre} (a9 {c).20 number 342x18y6 is divisible by 72, then what is the value of Oxy, for the largest value of y? (CHSL 2018 Pre} . Which among the following numbers is exactly divisible by 11, 13 and 7? (CHSL 2018 Pre} (1) 624613 (2) 624624 (3)624635 (4) 624646 The ten digit number 2x600000y8 is exactly divisible by 24. If x + 0 and y= 0, then the least value of (x + y) is equal to:  (as (b) 8 The 10-digit number 79x0000 1y6 is exactly divisible by 88 What is the value of (x + y)? {(CHSL 2018 Pre} If the number 59a44b is divisible by 36, then the maximum value of a + b is: (CHSL 2019 Pre} Which are the two nearest numbers to 19,596 divisible by 9? (CHSL 2019 Pre} {a) 19,564; 19,620 CHAG PION rustication",
+                options: "[\"18\",\"22\",\"27 (b) 4V7\",\"8 (d) 6\",\"(1) (b) (2)\",\"(3) (d) (4)\",\"9 (a) 2\",\"(b) 9\",\"6 (a) 7\",\"16 (b) 12\",\"14 (a) 10\",\"19,611; 19,575\",\"19,509; 19,611\",\"19,593; 19,602\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0018",
+                text: ". Which of the Wf 's is a natural number, then (Fe? + Ta) is always divisible by: {CHSL 2019 Pre} {a}7 & 14 bothid) 7 only fo) 24 only {@) 21 only . Which of the following number is divisible by 2, S and 10? (CHSL 2019 Pre} {a}7,20,345  ) 1,25,372 {c} 19,400 (a) 149 following numbers is divisible by both 7 and 11? {CHSL 2019 Pre} If 4M37094267N is divisible by both 8 and 11, where M and N are single digit integers, then the values of M and N are:  faM=5,N=6 )M=2,N=5 {c)M=5,N=2 (QM=5,N=4 . If 8-digit number 4432A43B is divisible by 9 and 5, then the sum of A and B is equal to: {CHSL 2019 Pre} (aj12 (b) 5 ()7 (a8 2'* — 1 is divisible by: {CHSL 2019 Pre} {ajil (b) 17 {c) 13 (d)7 . If the number 62783xy is divisible by both 8 and 5S, then the smallest possible value of xand yis:  If the five-digit number 672xy is divisible by 3, 7 and 11, then what is the value of (6x + Sy)?  {a)23 (b) 24 If a nine-digit number 489x 6378y is divisible by 72, then the value of /8x+6y will be:  {a)10 (b) 4 (6 (d) 8 If the number 645A2879B8 is divisible by both 8 and 9, then the smallest possible values of A and B will be: (aJA=3,B=4 {(c)A=2,B=3 @A=3,B=2",
+                options: "[\"16,324 fb) 12,235\",\"16,257 {d) 16,425\",\"x= 2, y=2(b)x= 6,y=0\",\"x= 2, y=O(d)x=2,y=5\",\"16 (d) 17\",\"A=4,B=3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0019",
+                text: "What is the sum of all the possible values of k for which a seven-digit number 23k567k is divisible by 3? (a}1S (b)3 {c) 109 (a) 16 If the li-digit number 4y6884805x6 is divisible by 72, and x y, then the value of xy is: (CHSL 2020 Pre} If the five-digit number 457 ab is divisible by 3, 7 and 11, then what is the value of a? + b’ ~ ab?  If the nine-digit number 8475639AB? is divisible by 99, then what is the value of A and B? {CHSL 2020 Pre) . If the number 583p2310q2 is divisible by 11, then what is the value of p x q, where p > q? {CHSL 2020 Pre) (c} 0 (6 . Which of the following is divisible by 887",
+                options: "[\"12 (o) V6\",\"V5 (@) V8\",\"49 (b) 36\",\"24 (d) 33\",\"A=4, B = 6 (b) A=5, B= 3\",\"A=3, B = 9 (d) A=4, B= 8\",\"4 e) 2\",\"2776408 (v) 2776400\",\"2767440 (d) 2767416\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0020",
+                text: "If an eleven-digit number 6578x43267y is divisible by 72, then the value of /x+6y will be:  {a)3 (b) 5",
+                options: "[\"6 (a) 4\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0021",
+                text: "The six-digit number 537xy5 is divisible by 125. How many such six-digit numbers are there?",
+                options: "[\"4 (b) 2\",\"3 (as\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0022",
+                text: "If the nine-digit number 48x4923y8 is divisible by 88, then the value of (6x + Sy) for the maximum value of y, will be:  {a)76 (b) 72",
+                options: "[\"65 (@) 71\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0023",
+                text: "From the following numbers, find the number which is ex- actly divisible by 42.  104, What will be the smalle Number System st ral number to be filled raaien he blank for the",
+                options: "[\"25232 (b) 25242\",\"25244 — (d) 25212\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0024",
+                text: "45678’ to be divisible by pet (CHSL 202;",
+                options: "[\"7 (b) 1 Pre)\",\"9 (a) 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0025",
+                text: "1f the 3-digit number 2x3 ig gj i. visible by 3, then the value x + x is (consider the Than mum value of x):(CHSL 202) Pre}",
+                options: "[\"? (b) 20\",\"56 (d) 2\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0026",
+                text: "If the number 732XY is divis ible by 70, then find the mini. mum value of = . (CHSL 2021",
+                options: "[\"2 (b) 1 east\",\"O (d) 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "General Mathematics",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0027",
+                text: "Which of the following num. bers is divisible by 15? (CHSL 2021 Pre",
+                options: "[\"1,65,485  (b) 3,06,045\",\"2,12,695 (a) 2,95,145\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0028",
+                text: "Which one of the following numbers is divisible by 24? (CHSL 2021",
+                options: "[\"569896 — (b) 478656\",\"480128 — (d) 543344\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0029",
+                text: "If the 9-digit number 5p42978n6 is divisible by 72 what is the value of (2p — 1), where n is the second largest of all the possible values of n? Given that p and n are natural number.",
+                options: "[\"17 (b) 21\",\"15 (d) 11\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0030",
+                text: "Which of the following numbers is NOT divisible by 36?",
+                options: "[\"124344\",\"120816\",\"136216\",\"259884\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0031",
+                text: "Which of the following num- bers is divisible by 55?",
+                options: "[\"185625\",\"164485\",\"178765\",\"171125\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0032",
+                text: "Which of the following num- bers is NOT divisible by 150?",
+                options: "[\"333300\",\"201300\",\"320550\",\"463750 °\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0033",
+                text: "Which of the following num- bers is NOT divisible by 75?  CHAGPION rusiicatiow",
+                options: "[\"117975 —(b) 275475\",\"163750 — (d) 666600\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0034",
+                text: "Which of the following num- bers is divisible by 360?",
+                options: "[\"171720 — (b) 176600\",\"166200 (d) 171080\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0035",
+                text: "Which of the following options is NOT divisible by 18?",
+                options: "[\"571032 — (b) 732546\",\"245798 — (d) 459018\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0036",
+                text: "Find the greatest possible value of (A + B) for which the 8-digit number 143B203A is divisible by",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0037",
+                text: "1f 7A425B is divisible by 36, then what is the value of A - B?",
+                options: "[\"O (b) 5\",\"1 (d) 2\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0038",
+                text: "If the 4-digit number 48ab is divisible by 2, 5 and 7, then what is the value of (10a-b)?  {c) 10 (d) 30",
+                options: "[\"O (b) 20\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0039",
+                text: "What is the value of x in the number 3426x if the number is divisible by 6 but NOT divisible by SP",
+                options: "[\"8 (b) 4\",\"3 (a) 6\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0040",
+                text: "Find the lowest positive value of (c - b) such that the 7-digit number 1738b9c is divisible by",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0041",
+                text: "Write the smallest digit in the blank space of a number 7__7624, so that the number formed is divisible by 3.  (@ ssc Ts & SPE]",
+                options: "[\"1 (b)2\",\"0 (d)3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0042",
+                text: "The 10-digit number 90457416xy is divisible by 9, and x- y = 3. What is the value of (5x + 3y)? (SP Phase-8)",
+                options: "[\"48 (b) 39\",\"33 (@) 29\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0043",
+                text: "Find the number nearest to 51462, that is divisible by 8. (SP Phase-9)",
+                options: "[\"51464 (b) 51468\",\"51456 (d) 51480\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0044",
+                text: "Find the sum of the greatest and the smallest number which may replace k in the number 8130k36 so that the number is divisible by 8. (SP Phase-9) {c) 12 (d) 8",
+                options: "[\"10 (b) 9\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0045",
+                text: "A six-digit number of the form ababab is always divisible by: (SP Phase-9) {a) 11111 (b) 10001 {c) 11001 (d) 10101",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0046",
+                text: "If the five-digit number 570xy is divisible by 231, then what is the value of (2x-y)? (SP Phase-9)",
+                options: "[\"5 (b) 7\",\"6 (a) 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0047",
+                text: "If a number N is divisible by 3, then which of the following is true? (SP Phase-9)",
+                options: "[\"(N + 6) is divisible by 6\",\"(N + 2) is divisible by 3\",\"N? is divisible by 6\",\"(N + 12) is divisible by 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0048",
+                text: "1f the 9-digit number 957x5y6z3 is divisible by 33, then what is the maximum value of (xty#z) ? (SP Phase-9) {a)24 (b) 27",
+                options: "[\"25 {a) 26\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0049",
+                text: "The sum of 3-digit numbers abe, bea and cab. is*always divisible by: (SP Phase-9)",
+                options: "[\"35 (b) 41\",\"37 (d) 31\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0050",
+                text: "If a 9-digit number 609a5b9c9 is divisible by 99, then (atb+c) is equal to: (SP Phase-9)",
+                options: "[\"16 (b) 7\",\"26 (d) 25\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0051",
+                text: "A 4-digit number x92x is divisible by 36 and a 7-digit number y569204 is divisible by",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0052",
+                text: "For the maximum value of (y + 2), what is the value of (2x tyt2Q? (SP Phase-9) {a)31 (b) 22",
+                options: "[\"33 (a) 26\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Profit & Loss",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0053",
+                text: "If the 7-digit number 612x97y is divisible by 72, and the 6- digit number 342178 is divisible by 11, then the value of (x-2y+3z) is: (SP Phase-9)",
+                options: "[\"7 (b) S\",\"2 (a6\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0054",
+                text: "Which of the following numbers will completely divide (65 + 6 + 6% + 6%)? SP 2023 Phase-11 Graduation L. co Number System",
+                options: "[\"7 (b) 13\",\"10 (a1.\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Profit & Loss",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0055",
+                text: "The six-digit number 7x1 yyx 1s a multiple of 33 for non-zero digits x and y. Which of the following could be a possible value of (x + y)? SP 2023 Phase-11 Matric. L.",
+                options: "[\"4 (b) 5\",\"2 (d) 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0056",
+                text: "If the product 6352 * 7A1 is divisible by 12, then the value of A is: SP 2022 Phase-10 Graduation L. (aj6 (b) 3 (5 (a) 4",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0057",
+                text: "A five-digit number 58828 is divisible by 77. If we add 5 more than twice of 11 to the number, then the resultant number will be divisible by: SP 2022 Phase-10 Matric. L.",
+                options: "[\"S (b) 11\",\"7 (d) 33\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0058",
+                text: "A seven-digit number 5702718 is divisible by 147. If we rearrange the digits of the number in descending order and subtract 4 more than three times of 17 from the new number which is formed, then the resultant number will be divisible by: SP 2022 Phase-10 Matric. L. ()7 (a5",
+                options: "[\"17 (b) 11\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0059",
+                text: "A number is square of 167. When digits of the number are rearranged in descending order, then the new number which is formed will be divisible by: SP 2022 Phase-10 Matric. L. (5 (d) 11",
+                options: "[\"17 (b) 13\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0060",
+                text: "A number is cube of 53. When 7 times of 57 is subtracted from the number, then the resultant number which is formed will be divisible by: SP 2022 Phase-10 Matric. L. {b) 19 (dj 11 140,5714572+579+5\"+575 is divisible by which of the following number? (CGL MAINS 2019) {a)71 {b) 69 CHAGPION ruriicarion",
+                options: "[\"12\",\"13\",\"89 (a) 73\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0061",
+                text: "A number is divisible by 3 only when  {a}the difference of the sum of the odd and the even digits is divisible by 3 (ob) the sum of its digits is divisible by 3 {c} the last digit is either 0 or an even number (djthe last two digits are divisible by 3",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0062",
+                text: "222°8 + 333%” is divisible by which of the following numbers? (UPSC CSAT 2024) {a)2 and 3 but not by 37 {>} 3 and 37 but not 2 {d) 2, 3 and 37 When divided by 2 or more numbers and leaves Same remainder",
+                options: "[\"2 and 37 but not 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "UPSC CSAT"
+              },
+              {
+                id: "Q_0063",
+                text: "Let x be the least 8 number which when divided by 2, 3, 4, 5, 6 and 7 leaves a remainder of 1 in each case. If x lies between 2800 and 3000, the what is the sum of the digits of x?  {a)15 (b) 16",
+                options: "[\"12 (@) 13\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0064",
+                text: "Let x be the least number of 4 digits that when divided by (2, 3, 4, 5, 6 and 7 leaves a remainder of 1 in each case. If x lies between 2000 and 2500, then what is the sum of the digits of x? (CPO 2019 Pré)",
+                options: "[\"9 (b) 15\",\"10 (a4\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0065",
+                text: "Let xbe the least number divisible by 13, such that when xis divided by 4,5,6,7,8 and 12, the remainder in each case is",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0066",
+                text: "The sum of the digits of xis: © System between 70000 and 7eqet 0 which on being divide 250 and 275 Teas 225, remainder of 61 in each : The sum of the digits of eit is: ¢ 16 \" tt 21",
+                options: "[\"12\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0067",
+                text: "Let x be the leas between 56,000 and qanber which when divided by 40. 00 50 and 5S leaves a remaing” of 23 in each case. What ie der sum of the digits of x? the (MTS (¢) 26 (a) 19",
+                options: "[\"23 (yar we Pra\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0068",
+                text: "When 3820, 4672 and 6163 divided by the greatest ny; x, the remainder in each wt is the same. What is the quotient when x divided 10359 (ers",
+                options: "[\"6 we oP\",\"4 (d) 3\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0069",
+                text: "What is the smallest num} which when divided by 72 ect 96, respectively, leaves a",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Profit & Loss",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0070",
+                text: "Let, x be the greatest number which when divides 955, 1027, 1075, the remainder in each case is the same. Which of the following is NOT a factor of x? (CGL MAINS 2019)",
+                options: "[\"6 (b) 16\",\"4 (d) 8\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0071",
+                text: "The largest three-digit number that gives the same remainder 2 when divided by 3, 5 and 9 is: (CGL MAINS 2022)",
+                options: "[\"999 (b) 984\",\"998 (d) 992\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0072",
+                text: "When 860, 1712 and 3203 are divided by a two-digit number x, then the remainder in each case is y. If (2x + y) is written p x q x 1’, where p, q and r are prime numbers then what is the value of (p + q + 1) ? (IB ACIO-11) () 16 (ais Largest And Smallest",
+                options: "[\"12 (b) 10\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0073",
+                text: "Which of the following is the smallest 5-digits number that is exactly divisible by 526? {CGL 2023 Pre)",
+                options: "[\"10520 (b) 11046\",\"10516 (d) 10426\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0074",
+                text: "Which of the following is the largest 5-digit number divisible by 47?",
+                options: "[\"99999 (b) 98888\",\"99969 (d) 10000\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0075",
+                text: "The greatest number of 5 digits that is exactly divisible by each of 8, 12, 15 and is:",
+                options: "[\"99950 —(b) 99940\",\"99980 —(d) 99960\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0076",
+                text: "The greatest number of five digits which is divisible by 13, 15, 18 and 21 is: (CPO 2022 Pre}",
+                options: "[\"99120 (b) 98280\",\"96840 (d) 95830\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0077",
+                text: "The largest number of four digits that is exactly divisible Number sterr",
+                options: "[]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0078",
+                text: "The largest six-digit number exactly divisible by 243 1s: (CHSL 2020 Pre}",
+                options: "[\"999945\",\"999949\",\"999943\",\"999947\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0079",
+                text: "Which of the following is the least 6-digit number that is divisible by 93?",
+                options: "[\"100068 —(b) 100070\",\"100075 (d) 100065\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0080",
+                text: "What is the largest five digit number exactly divisible by 88? (CHSL 2023 Pre}",
+                options: "[\"99992\",\"99968\",\"99984\",\"99986\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0081",
+                text: "What will be the greatest number 32a78b, which 1s divisible by 3 but NOT divisible by 9 (Where a and b are single digit number).  .@ ssc MTS & SP_3 9 148:Rind ‘the jredtest nucaber {CPO 2019 Pre) remainder 5 in each case? umber divisible b: which divides 108, 124 and (a)11 (b) 8 (MTS 2020 Pre No-1, No.2, No.3 is by 17 and 36 is: (cPo 2023 Prey 185-The smallest four-digit number der. (cat 20a Pra 151.What is the greatest number | oF ota pumbe ats (c)9792 (a) 8568 32 and 48 is:",
+                options: "[\"329784 (b) 324781\",\"326787 (d) 329787\",\"9 : {@)10\",\"ear te) 571 z. 2\",\"7956\",\"9180 which is exactly divisible by 18,\",\"18 (6) 10 of six digits, which. when Sy ad GOO eee 176.Which is the smallest natural (a) 1252 (b) 1156\",\"1256\",\"1152\",\"12 (a) 16 and 84, leaves the remainder 51, the pear pe heen 166.What is the sum of the of th divisible by each of 96, 108 and 186.Let x be the least number\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0082",
+                text: "What is the greatest number nad ae ada (MTS 2020 Pre acre ince ae 144? (CPO 2023 Pre} divisible by 8, 12, 30, 36 and 45 is 6 in cach case?(00n aoa1 re 152-Find the greatest number 160.When 5054, 5906 and 7397 are ee beled (Ts 2020 Pre} YAS.What lathe terest nme” of 5 in each case.{cPo 2023 Pre) is the same. The sum of the smallest number that is a 177.The largest five-digit number |, (° () Shidiehenia ee (19 (b) 18 digits of x is:  perfect square and is divisible that is-exactly divisible by 81 is: sLet x be the greatest number gat? nen (c) 9 (a) 5 and 15?  9 908 are divided, the remainder",
+                options: "[\"999951\",\"864\",\"2592 and x is also a perfect square.\",\"835,\",\"1728 What is the value of x ?\",\"26 oir which when divides 261, 853 divided by the greatest number (3 @) SSC CHSL (a)3600 (b) 4900\",\"25 (a 13 and 1221 leaves a remainder x, the remainder in each case 167.Which of the following is the (c) 2500 id) 4225\",\"16\",\"11\",\"99989\",\"99991 : fe 3\",\"10097 (b) 10087 which is exactly divisible by 9, 61.Let : be ed aged 5-digit (a) 225 (b) 121 (c) 99954 (a) 99876 in ie case is 11. When 147\",\"10067 (a) 10077 12, 15, 25 and 27 is: divided by 3, 6-7 and 21, it 16815 Ire great 280i mamber 378-What is the least S-digit 8 “vided Py x the remaindet\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0083",
+                text: "Find the greatest 3-digit  leaves the same remainder 4. which is divisible by 11, 33, 99 number that is divisible by 91? ie (rms 2020 Pre () 958 (a) 482 4 square which is completely number that is completely ene) he eenere, ete",
+                options: "[\"10800 _\",\"3 os\",\"10700\",\"90099 —_\",\"99990 aces te otod ‘ae 8\",\"11\",\"13\",\"}99099\",\". 90909\",\"}10010\",\"10192 pind) the ‘eum: of, thesereatest\",\"962 (b) 122 (@ sscursasr 3) (c) 10 (17 169.What is the smallest perfect 179-What is the greatest five-digit q-Gigit: number, divisible ‘by:6\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0084",
+                text: "The largest five-digit number 154.Let xbe the least number which SSC MAINS divisible by each of 16, 18 and 36? civeetole WIS: 1S; Nous and Se nutes Cv which when divided by 7, 9 and on being divided by 8, 12, 15,24, 469 When 7807, 8110 and 8536 are (ceuiataa Pre Aad ad aaa 11, leaves the same remainder 25 and 40 leaves a remainder divided by the greatest number 5 196 a 169 (c) 95760 ‘a 98320 (e) 10998 is 11000 as 3 in each case, is:  of 7 in each case. Then find the remainder when x is divided by",
+                options: "[\"92680 —\",\"99120 a) 11004\",\"95840 —(b) 98685\",\"96720 (d) 99795\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0085",
+                text: "() 19 (d) 20 x, then the remainder in each case is the same. the sum of the digits of x is:(CGL MAINS 2018) (ao (b) 6 ()5 (a) 14 CHAGPION PUBLICATION",
+                options: "[\"18 (b) 27\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC MTS"
+              },
+              {
+                id: "Q_0086",
+                text: "The largest 5 digit number exactly divisible by 88 is:",
+                options: "[\"99990 (b) 99984\",\"}99978 (ad) 99968\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0087",
+                text: "The smallest six-digit number that is exactly divisible by 53 is:  (by 100042 cs",
+                options: "[\"100064\",\"100011\",\"100008\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0088",
+                text: "The smallest six-digit number which is divisible by 12, 16, 24, 28 is:SP 2023 Phase-11 Matric. L. CHAS PION pusiication",
+                options: "[\"100160 —_(b) 100180\",\"100190 (a) 100128\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0089",
+                text: "The least number which should be added to 3627 so that the sum is exactly divisible by 4, 5, 6 and 8 is:  191'Find the st hist number which should be added to the smallest number divisible by 6, 9 and 15 to make it a perfect square.  {a)10 (b) 9 {ce} 19 (d) 21 192,The least number that should be added to 35460 so that the sum is exactly divisible by 3, 4,5 and 7is:",
+                options: "[\"93 (b) 39\",\"84 (b) 420\",\"240 (@) 180\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0090",
+                text: "A six-digit number is divisible by 33. If 54 is added to the number, then the new number formed will also be divisible by: (CGL 2023 Pre} 194,Find the smallest number that can be subtracted from 148109326 so that it becomes divisible by 8.  (cJ6 (d) 10",
+                options: "[\"3 (b) 2\",\"5 (a)7\",\"4 (b)8\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0091",
+                text: "Find the smallest number to be. added to 999, so that 99 divides the sum exactly.  r (c} 90 @e .@ _ssccro Fx)",
+                options: "[\"99 oo. |\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Ratio & Proportion",
+                difficulty: "MEDIUM",
+                examType: "SSC CGL"
+              },
+              {
+                id: "Q_0092",
+                text: "The least number that should be added to 10000 so that it is exactly divisible by 327 is:",
+                options: "[\"327 (b) 237\",\"137 (d) 190\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0093",
+                text: "The smallest number that should be added to 8212 to obtain a perfect square is:",
+                options: "[\"123 (b) 69\",\"54 (a) 112\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Profit & Loss",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0094",
+                text: "Which least number should be added to 1000 so that the number obtained is exactly divisible by 37?",
+                options: "[\"1 (b) 25\",\"36 (d) 13\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0095",
+                text: "The least number which should be added to 1351 so that the sum is exactly divisible by 2,4,6 and 8 is:",
+                options: "[\"11 (b) 15\",\"13 (@) 17\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CPO"
+              },
+              {
+                id: "Q_0096",
+                text: "What should be subtracted from 246837 to make it divisible by 13?",
+                options: "[\"5 (b) 6\",\"3 (a) 4\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0097",
+                text: "What is the least number that must be added to the greatest 6-digit number so that sum will be exactly divisible by 294?  (@ sscursacr 3)",
+                options: "[\"194 (b) 269\",\"234 (a) 189\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC CHSL"
+              },
+              {
+                id: "Q_0098",
+                text: "What least number must be subtracted from 2963 so that the resulting number when divided by.9, 10 and 15, the remainder.in each case is 5?",
+                options: "[\"4 (b) 78\",\"82 (d) 39\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC MTS"
+              },
+              {
+                id: "Q_0099",
+                text: "Find the smallest number which should be added to 1234 _to get a number divisible by 45. a * (SP Phase-9) es (c)26 (di G==D",
+                options: "[\"16\",\"8\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              },
+              {
+                id: "Q_0100",
+                text: "Let, x be the least number which when divided by 15, 18, 20 and 27, the remainder in each case is 10 and x is a multiple of 31. What least number should be added to x to make it a perfect square? (CGL MAINS 2018)",
+                options: "[\"39 (b) 37\",\"43 (d) 36\"]",
+                correctOptionIndex: 0,
+                explanation: null,
+                subject: "Number System",
+                difficulty: "MEDIUM",
+                examType: "SSC"
+              }
+            ],
+            skipDuplicates: true
+            ~~~~~~~~~~~~~~
+          })
+
+Unknown argument `skipDuplicates`. Available options are marked with ?.
+    at In (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/@prisma/client/runtime/library.js:114:7526)
+    at Ln.handleRequestError (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/@prisma/client/runtime/library.js:121:7396)
+    at Ln.handleAndLogRequestError (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/@prisma/client/runtime/library.js:121:7061)
+    at Ln.request (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/@prisma/client/runtime/library.js:121:6745)
+    at async l (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/@prisma/client/runtime/library.js:130:9633)
+    at async GET (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/[root-of-the-server]__9bab3249._.js:113:13)
+    at async AppRouteRouteModule.do (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:37866)
+    at async AppRouteRouteModule.handle (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:5:45156)
+    at async responseGenerator (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/[root-of-the-server]__926d61ee._.js:15350:38)
+    at async AppRouteRouteModule.handleResponse (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/compiled/next-server/app-route-turbo.runtime.dev.js:1:191938)
+    at async handleResponse (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/[root-of-the-server]__926d61ee._.js:15413:32)
+    at async Module.handler (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/[root-of-the-server]__926d61ee._.js:15466:13)
+    at async DevServer.renderToResponseWithComponentsImpl (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/base-server.js:1442:9)
+    at async DevServer.renderPageComponent (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/base-server.js:1494:24)
+    at async DevServer.renderToResponseImpl (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/base-server.js:1544:32)
+    at async DevServer.pipeImpl (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/base-server.js:1038:25)
+    at async NextNodeServer.handleCatchallRenderRequest (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/next-server.js:395:17)
+    at async DevServer.handleRequestImpl (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/base-server.js:929:17)
+    at async /Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/dev/next-dev-server.js:387:20
+    at async Span.traceAsyncFn (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/trace/trace.js:157:20)
+    at async DevServer.handleRequest (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/dev/next-dev-server.js:383:24)
+    at async invokeRender (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/lib/router-server.js:248:21)
+    at async handleRequest (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/lib/router-server.js:447:24)
+    at async requestHandlerImpl (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/lib/router-server.js:496:13)
+    at async Server.requestListener (/Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/node_modules/next/dist/server/lib/start-server.js:226:13)
