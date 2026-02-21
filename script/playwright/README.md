@@ -41,7 +41,7 @@ BASE_URL="http://127.0.0.1:3000" \
 E2E_USER_NAME="QA Bot" \
 E2E_USER_EMAIL="qa.bot.math@example.com" \
 E2E_USER_PASSWORD="StrongPass123!" \
-PLAYWRIGHT_SESSION="math-mastery-qa" \
+PLAYWRIGHT_SESSION="mmqa" \
 OUTPUT_DIR="$(pwd)/output/playwright/auth-practice-flow" \
 bash script/playwright/auth_practice_flow.sh
 ```

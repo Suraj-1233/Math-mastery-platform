@@ -12,6 +12,11 @@ MISSING_NPX
   exit 1
 fi
 
+if ! command -v node >/dev/null 2>&1; then
+  echo "Error: node is required but not found on PATH." >&2
+  exit 1
+fi
+
 CODEX_HOME="${CODEX_HOME:-$HOME/.codex}"
 PWCLI="${PWCLI:-$CODEX_HOME/skills/playwright/scripts/playwright_cli.sh}"
 
@@ -21,7 +26,7 @@ if [[ ! -x "$PWCLI" ]]; then
 fi
 
 BASE_URL="${BASE_URL:-http://127.0.0.1:3000}"
-PLAYWRIGHT_SESSION="${PLAYWRIGHT_SESSION:-math-mastery-auth-practice}"
+PLAYWRIGHT_SESSION="${PLAYWRIGHT_SESSION:-mmflow}"
 HEADED="${HEADED:-0}"
 E2E_USER_NAME="${E2E_USER_NAME:-Codex Browser User}"
 E2E_USER_EMAIL="${E2E_USER_EMAIL:-codex.math.mastery@example.com}"
@@ -30,20 +35,43 @@ OUTPUT_DIR="${OUTPUT_DIR:-$(pwd)/output/playwright/auth-practice-flow}"
 
 mkdir -p "$OUTPUT_DIR"
 
-export BASE_URL E2E_USER_NAME E2E_USER_EMAIL E2E_USER_PASSWORD OUTPUT_DIR
 export PLAYWRIGHT_CLI_SESSION="$PLAYWRIGHT_SESSION"
+
+js_escape() {
+  node -e 'process.stdout.write(JSON.stringify(process.argv[1]))' "$1"
+}
+
+run_pwcli() {
+  local output
+  if ! output="$("$PWCLI" "$@" 2>&1)"; then
+    printf '%s\n' "$output"
+    return 1
+  fi
+
+  printf '%s\n' "$output"
+
+  if grep -q '^### Error' <<<"$output"; then
+    return 1
+  fi
+}
+
+BASE_URL_JS="$(js_escape "$BASE_URL")"
+E2E_USER_NAME_JS="$(js_escape "$E2E_USER_NAME")"
+E2E_USER_EMAIL_JS="$(js_escape "$E2E_USER_EMAIL")"
+E2E_USER_PASSWORD_JS="$(js_escape "$E2E_USER_PASSWORD")"
+OUTPUT_DIR_JS="$(js_escape "$OUTPUT_DIR")"
 
 open_args=(open "$BASE_URL")
 if [[ "$HEADED" == "1" ]]; then
   open_args+=(--headed)
 fi
 
-"$PWCLI" "${open_args[@]}"
+run_pwcli "${open_args[@]}"
 trap '"$PWCLI" close >/dev/null 2>&1 || true' EXIT
 
-WAIT_FOR_APP_CODE="$(cat <<'JS'
+WAIT_FOR_APP_TEMPLATE="$(cat <<'JS'
 async (page) => {
-  const baseUrl = process.env.BASE_URL;
+  const baseUrl = __BASE_URL__;
   const deadline = Date.now() + 45000;
   let lastError = 'unknown error';
 
@@ -52,27 +80,40 @@ async (page) => {
       const response = await page.goto(baseUrl, { waitUntil: 'domcontentloaded', timeout: 10000 });
       if (response && response.ok()) {
         await page.waitForLoadState('networkidle', { timeout: 5000 }).catch(() => {});
-        return;
+
+        const hasExpectedAppMarker =
+          (await page.getByRole('link', { name: 'Get started' }).first().isVisible().catch(() => false)) ||
+          (await page.getByText('Master Government Exams with Confidence').first().isVisible().catch(() => false)) ||
+          (await page.getByText('Math Mastery').first().isVisible().catch(() => false));
+
+        if (hasExpectedAppMarker) {
+          return;
+        }
+
+        lastError = 'Server responded but expected Math Mastery app markers were not found.';
+      } else {
+        lastError = `HTTP ${response ? response.status() : 'no-response'}`;
       }
-      lastError = `HTTP ${response ? response.status() : 'no-response'}`;
     } catch (error) {
       lastError = String(error);
     }
+
     await page.waitForTimeout(1500);
   }
 
-  throw new Error(`App not reachable at ${baseUrl}. Last error: ${lastError}`);
+  throw new Error(`App verification failed for ${baseUrl}. Last error: ${lastError}`);
 }
 JS
 )"
-"$PWCLI" run-code "$WAIT_FOR_APP_CODE"
+WAIT_FOR_APP_CODE="${WAIT_FOR_APP_TEMPLATE//__BASE_URL__/$BASE_URL_JS}"
+run_pwcli run-code "$WAIT_FOR_APP_CODE"
 
-AUTH_FLOW_CODE="$(cat <<'JS'
+AUTH_FLOW_TEMPLATE="$(cat <<'JS'
 async (page) => {
-  const baseUrl = process.env.BASE_URL;
-  const name = process.env.E2E_USER_NAME;
-  const email = process.env.E2E_USER_EMAIL;
-  const password = process.env.E2E_USER_PASSWORD;
+  const baseUrl = __BASE_URL__;
+  const name = __USER_NAME__;
+  const email = __USER_EMAIL__;
+  const password = __USER_PASSWORD__;
   const timeout = 25000;
 
   const appUrl = (path) => new URL(path, baseUrl).toString();
@@ -155,13 +196,17 @@ async (page) => {
 }
 JS
 )"
-"$PWCLI" run-code "$AUTH_FLOW_CODE"
-"$PWCLI" state-save "$OUTPUT_DIR/authenticated-state.json"
+AUTH_FLOW_CODE="${AUTH_FLOW_TEMPLATE//__BASE_URL__/$BASE_URL_JS}"
+AUTH_FLOW_CODE="${AUTH_FLOW_CODE//__USER_NAME__/$E2E_USER_NAME_JS}"
+AUTH_FLOW_CODE="${AUTH_FLOW_CODE//__USER_EMAIL__/$E2E_USER_EMAIL_JS}"
+AUTH_FLOW_CODE="${AUTH_FLOW_CODE//__USER_PASSWORD__/$E2E_USER_PASSWORD_JS}"
+run_pwcli run-code "$AUTH_FLOW_CODE"
+run_pwcli state-save "$OUTPUT_DIR/authenticated-state.json"
 
-BROWSER_FLOW_CODE="$(cat <<'JS'
+BROWSER_FLOW_TEMPLATE="$(cat <<'JS'
 async (page) => {
-  const baseUrl = process.env.BASE_URL;
-  const outputDir = process.env.OUTPUT_DIR;
+  const baseUrl = __BASE_URL__;
+  const outputDir = __OUTPUT_DIR__;
   const timeout = 25000;
 
   const appUrl = (path) => new URL(path, baseUrl).toString();
@@ -213,7 +258,9 @@ async (page) => {
 }
 JS
 )"
-"$PWCLI" run-code "$BROWSER_FLOW_CODE"
-"$PWCLI" state-save "$OUTPUT_DIR/logged-out-state.json"
+BROWSER_FLOW_CODE="${BROWSER_FLOW_TEMPLATE//__BASE_URL__/$BASE_URL_JS}"
+BROWSER_FLOW_CODE="${BROWSER_FLOW_CODE//__OUTPUT_DIR__/$OUTPUT_DIR_JS}"
+run_pwcli run-code "$BROWSER_FLOW_CODE"
+run_pwcli state-save "$OUTPUT_DIR/logged-out-state.json"
 
 printf 'Workflow completed successfully. Artifacts saved in %s\n' "$OUTPUT_DIR"
