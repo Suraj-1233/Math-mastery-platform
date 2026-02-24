@@ -1,15 +1,27 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { mockTests, TestType } from '@/data/mockTests';
+import { MockTest, TestType } from '@/data/mockTests';
 import MockTestCard from '@/components/MockTestCard';
 import { motion, AnimatePresence } from 'framer-motion';
+import { getTests } from '@/actions/tests';
 
 export default function MockTestsPage() {
     const [selectedType, setSelectedType] = useState<TestType | 'All'>('All');
+    const [tests, setTests] = useState<MockTest[]>([]);
+    const [loading, setLoading] = useState(true);
 
-    const filteredTests = mockTests.filter(test =>
+    useEffect(() => {
+        const load = async () => {
+            const data = await getTests();
+            setTests(data);
+            setLoading(false);
+        };
+        load();
+    }, []);
+
+    const filteredTests = tests.filter(test =>
         selectedType === 'All' || test.type === selectedType
     );
 

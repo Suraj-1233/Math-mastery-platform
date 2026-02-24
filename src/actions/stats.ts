@@ -22,22 +22,33 @@ export async function getUserStats(targetYear?: number) {
 
     // Aggregate Subject Stats (Prisma limitation: groupBy on relation not direct)
     // Workaround: Fetch solved progress with question relation
-    // Aggregate Subject Stats using Raw SQL because Prisma client might be out of sync
+    // Aggregate Topic Stats using Raw SQL
     const solvedRecords: any[] = await prisma.$queryRawUnsafe(`
-        SELECT up.isCorrect, q.subject 
+        SELECT up.isCorrect, q.subject, q.topic 
         FROM UserProgress up
         JOIN Question q ON up.questionId = q.id
         WHERE up.userId = '${userId}' AND up.isSolved = 1
     `);
 
     const subjectMap = new Map<string, { total: number; correct: number }>();
+    const topicMap = new Map<string, { subject: string; total: number; correct: number }>();
 
     solvedRecords.forEach((record) => {
-        const subject = record.subject;
-        const current = subjectMap.get(subject) || { total: 0, correct: 0 };
-        current.total += 1;
-        if (record.isCorrect) current.correct += 1;
-        subjectMap.set(subject, current);
+        const { subject, topic, isCorrect } = record;
+
+        // Subject aggregation
+        const sub = subjectMap.get(subject) || { total: 0, correct: 0 };
+        sub.total += 1;
+        if (isCorrect) sub.correct += 1;
+        subjectMap.set(subject, sub);
+
+        // Topic aggregation
+        if (topic) {
+            const top = topicMap.get(topic) || { subject, total: 0, correct: 0 };
+            top.total += 1;
+            if (isCorrect) top.correct += 1;
+            topicMap.set(topic, top);
+        }
     });
 
     const subjectWise = Array.from(subjectMap.entries()).map(([subject, stats]) => ({
@@ -45,6 +56,15 @@ export async function getUserStats(targetYear?: number) {
         total: stats.total,
         score: Math.round((stats.correct / stats.total) * 100),
     }));
+
+    const topicWise = Array.from(topicMap.entries())
+        .map(([topic, stats]) => ({
+            topic,
+            subject: stats.subject,
+            total: stats.total,
+            score: Math.round((stats.correct / stats.total) * 100),
+        }))
+        .sort((a, b) => b.total - a.total); // Most practiced first
 
     const accuracy = totalSolved > 0 ? Math.round((correctCount / totalSolved) * 100) : 0;
 
@@ -118,6 +138,7 @@ export async function getUserStats(targetYear?: number) {
         rank,
         percentile,
         subjectWise,
+        topicWise,
         activityData,
     };
 }

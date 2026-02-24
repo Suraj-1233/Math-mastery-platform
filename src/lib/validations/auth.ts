@@ -21,3 +21,9 @@ export const signupSchema = z.object({
         message: "Password must be at least 6 characters.",
     }),
 })
+
+export const verifyEmailSchema = z.object({
+    code: z.string().length(6, {
+        message: "Verification code must be 6 digits.",
+    }),
+});

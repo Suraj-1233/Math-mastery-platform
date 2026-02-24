@@ -1,0 +1,325 @@
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/client"
+}
+
+model User {
+  id                  String    @id @default(cuid())
+  name                String?
+  email               String    @unique
+  password            String? // Hashed
+  role                String    @default("USER") // ADMIN for SuperAdmins, USER for regular users
+  subscriptionStatus  String    @default("FREE")
+  needsPasswordChange Boolean   @default(false)
+  emailVerified       DateTime?
+  image               String?
+  createdAt           DateTime  @default(now())
+
+  accounts Account[]
+  sessions Session[]
+
+  // Memberships for multi-organization support
+  memberships OrgMembership[]
+
+  progress     UserProgress[]
+  testAttempts UserTestAttempt[]
+  badges       Badge[]
+
+  createdQuestions Question[]       @relation("QuestionCreator")
+  createdTests     Test[]           @relation("TestCreator")
+  assignedTests    TestAssignment[] @relation("AssignedTests")
+  notifications    Notification[]
+
+  memberBatches  Batch[] @relation("BatchStudents")
+  createdBatches Batch[] @relation("BatchCreator")
+}
+
+model OrgMembership {
+  id             String       @id @default(cuid())
+  role           String       @default("USER") // ORG_OWNER, TEACHER, USER (Student)
+  userId         String
+  user           User         @relation(fields: [userId], references: [id], onDelete: Cascade)
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+  status         String       @default("ACTIVE")
+  createdAt      DateTime     @default(now())
+  updatedAt      DateTime     @updatedAt
+
+  @@unique([userId, organizationId])
+  @@index([userId])
+  @@index([organizationId])
+}
+
+model Notification {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  title     String
+  message   String
+  type      String   @default("INFO") // INFO, SUCCESS, WARNING, ALERT
+  isRead    Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@index([userId, isRead])
+}
+
+model Organization {
+  id           String   @id @default(cuid())
+  name         String
+  slug         String?  @unique
+  logoUrl      String?
+  contactName  String?
+  contactEmail String   @unique
+  contactPhone String?
+  plan         String   @default("FREE") // FREE, STANDARD, ENTERPRISE
+  maxSeats     Int      @default(50)
+  status       String   @default("ACTIVE") // ACTIVE, SUSPENDED, TRIAL
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  memberships  OrgMembership[]
+  questions    Question[]
+  tests        Test[]
+  testAttempts UserTestAttempt[]
+  batches      Batch[]
+}
+
+model Batch {
+  id          String  @id @default(cuid())
+  name        String
+  description String?
+
+  organizationId String
+  organization   Organization @relation(fields: [organizationId], references: [id], onDelete: Cascade)
+
+  createdById String
+  createdBy   User   @relation("BatchCreator", fields: [createdById], references: [id])
+
+  students User[] @relation("BatchStudents")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@index([organizationId])
+}
+
+model Badge {
+  id          String   @id @default(cuid())
+  name        String // e.g., "Math Magician", "Early Bird"
+  description String
+  icon        String // Lucid icon name or emoji
+  type        String // "ACHIEVEMENT", "STREAK", "LEVEL"
+  awardedAt   DateTime @default(now())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@index([userId])
+}
+
+model Question {
+  id                 String   @id @default(cuid())
+  text               String // Markdown/LaTeX supported
+  textHi             String? // Hindi translated text
+  options            String // JSON: Array of { text: string, imageUrl?: string }
+  correctOptionIndex Int
+  explanation        String? // Detailed solution
+  explanationHi      String? // Hindi translated explanation
+  subject            String
+  topic              String?
+  difficulty         String   @default("MEDIUM")
+  examType           String // e.g., "SSC_CGL", "RAILWAY"
+  year               Int?
+  imageUrl           String? // Primary feature image
+  imageWidth         Int? // Width in pixels
+  imageHeight        Int? // Height in pixels
+  tags               String? // comma-separated
+  isPremium          Boolean  @default(false)
+  questionType       String   @default("MCQ") // MCQ, NUMERIC, TRUE_FALSE
+  metadata           String? // Flat JSON for extra props (source, specific exam shift, etc.)
+  solveAttemptCount  Int      @default(0)
+  wrongAttemptCount  Int      @default(0)
+  createdAt          DateTime @default(now())
+  updatedAt          DateTime @default(now()) @updatedAt
+
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  createdById String?
+  createdBy   User?   @relation("QuestionCreator", fields: [createdById], references: [id])
+
+  isPublic Boolean @default(true)
+  category String  @default("BOTH") // PRACTICE | TEST | BOTH
+
+  occurrences  QuestionOccurrence[]
+  media        Media[]
+  userProgress UserProgress[]
+  tests        Test[]               @relation("TestQuestions")
+
+  @@index([difficulty])
+  @@index([solveAttemptCount])
+}
+
+model Test {
+  id              String     @id @default(cuid())
+  title           String
+  titleHi         String?
+  description     String
+  descriptionHi   String?
+  type            String // Topic, Sectional, Full, Speed
+  topicId         String?
+  duration        Int // minutes
+  questionCount   Int
+  difficulty      String // Easy, Medium, Hard
+  totalMarks      Float
+  negativeMarking Float
+  questions       Question[] @relation("TestQuestions")
+
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  createdById String?
+  createdBy   User?   @relation("TestCreator", fields: [createdById], references: [id])
+
+  status           String    @default("DRAFT") // DRAFT | LIVE | ARCHIVED
+  scheduledAt      DateTime?
+  isPublic         Boolean   @default(false)
+  resultsDisclosed Boolean   @default(false) // Owner must disclose before students see results
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  testAttempts UserTestAttempt[]
+  assignments  TestAssignment[]
+}
+
+model QuestionOccurrence {
+  id         String   @id @default(cuid())
+  examName   String // e.g., "SSC CGL"
+  year       Int // e.g., 2023
+  shift      String? // e.g., "Morning", "Shift 2"
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+model Media {
+  id         String   @id @default(cuid())
+  url        String
+  type       String   @default("IMAGE") // IMAGE, VIDEO, PDF
+  width      Int? // Width in pixels
+  height     Int? // Height in pixels
+  caption    String?
+  questionId String
+  question   Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+}
+
+model UserProgress {
+  id         String @id @default(cuid())
+  userId     String
+  questionId String
+  status     String // "CORRECT", "WRONG", "BOOKMARKED"
+
+  isSolved     Boolean @default(false)
+  isCorrect    Boolean @default(false)
+  isBookmarked Boolean @default(false)
+
+  attemptedAt DateTime @default(now())
+  timeTaken   Int? // Seconds
+
+  user     User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  question Question @relation(fields: [questionId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, questionId])
+  @@index([userId, isBookmarked])
+  @@index([userId, isSolved])
+}
+
+model UserTestAttempt {
+  id          String    @id @default(cuid())
+  userId      String
+  testId      String
+  test        Test      @relation(fields: [testId], references: [id])
+  score       Float
+  accuracy    Float
+  rank        Int?
+  answersJson String // Store JSON stringified map of { questionId: selectedIndex }
+  status      String    @default("SUBMITTED") // IN_PROGRESS | SUBMITTED
+  startedAt   DateTime  @default(now())
+  updatedAt   DateTime  @default(now()) @updatedAt
+  completedAt DateTime?
+
+  organizationId String?
+  organization   Organization? @relation(fields: [organizationId], references: [id])
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model TestAssignment {
+  id             String   @id @default(cuid())
+  testId         String
+  test           Test     @relation(fields: [testId], references: [id], onDelete: Cascade)
+  studentId      String
+  student        User     @relation("AssignedTests", fields: [studentId], references: [id], onDelete: Cascade)
+  organizationId String?
+  assignedAt     DateTime @default(now())
+
+  @@unique([testId, studentId])
+  @@index([studentId])
+  @@index([organizationId])
+}
+
+model PasswordResetToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  @@unique([email, token])
+}
+
+model VerificationToken {
+  id        String   @id @default(cuid())
+  email     String
+  token     String   @unique
+  expires   DateTime
+  createdAt DateTime @default(now())
+
+  @@unique([email, token])
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String?
+  access_token      String?
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String?
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}

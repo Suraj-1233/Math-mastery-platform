@@ -66,7 +66,14 @@ export function QuestionReviewList({ questions, answersMap, language: initialLan
                     const selected = answersMap[q.id];
                     const isCorrect = selected === q.correctOptionIndex;
                     const isSkipped = selected === undefined || selected === null;
-                    const options = JSON.parse(q.options);
+                    const options = (() => {
+                        const raw = q.options;
+                        if (!raw) return [];
+                        if (Array.isArray(raw)) return raw;
+                        if (typeof raw === 'string') { try { return JSON.parse(raw); } catch { return []; } }
+                        if (typeof raw === 'object') return Object.values(raw);
+                        return [];
+                    })();
 
                     return (
                         <div key={q.id} className="card-premium overflow-hidden">

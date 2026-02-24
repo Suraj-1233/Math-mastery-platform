@@ -15,6 +15,11 @@ async function getUser(email: string) {
     try {
         const user = await prisma.user.findUnique({
             where: { email },
+            include: {
+                memberships: {
+                    include: { organization: { select: { id: true, name: true, slug: true } } }
+                }
+            }
         });
         return user;
     } catch (error) {
@@ -33,7 +38,12 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
 
                 try {
                     const existingUser = await prisma.user.findUnique({
-                        where: { email: user.email }
+                        where: { email: user.email },
+                        include: {
+                            memberships: {
+                                include: { organization: { select: { id: true, name: true, slug: true } } }
+                            }
+                        }
                     });
 
                     if (!existingUser) {
@@ -42,13 +52,19 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                             data: {
                                 email: user.email,
                                 name: user.name || 'Google User',
-                                // Note: We leave password null or empty since they use OAuth
                                 password: '',
-                            }
+                                role: 'USER',
+                            },
+                            include: { memberships: true }
                         });
                         user.id = newUser.id;
+                        (user as any).role = newUser.role;
+                        (user as any).memberships = newUser.memberships;
                     } else {
                         user.id = existingUser.id;
+                        (user as any).role = existingUser.role;
+                        (user as any).memberships = (existingUser as any).memberships;
+                        (user as any).needsPasswordChange = (existingUser as any).needsPasswordChange ?? false;
                     }
                     return true;
                 } catch (error) {
@@ -58,12 +74,38 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
             }
             return true; // allow credentials sign-in
         },
-        async jwt({ token, user, account }) {
+        async jwt({ token, user, trigger, session }) {
             if (user) {
                 token.sub = user.id;
+                token.role = (user as any).role;
+                token.memberships = (user as any).memberships;
+                token.needsPasswordChange = (user as any).needsPasswordChange;
+
+                console.log("🛠️ [auth.ts - jwt] User Object Memberships:", (user as any).memberships);
+
+                // We no longer set a default organizationId. 
+                // The user starts in Personal mode or selects it at /workspace.
             }
+
+            // Handle manual organization switch (if update() is called)
+            if (trigger === 'update' && session?.organizationId !== undefined) {
+                token.organizationId = session.organizationId;
+            }
+
             return token;
+        },
+
+        async session({ session, token }) {
+            if (session.user && token.sub) {
+                session.user.id = token.sub as string;
+                (session.user as any).role = token.role;
+                (session.user as any).memberships = token.memberships;
+                (session.user as any).needsPasswordChange = token.needsPasswordChange;
+                (session.user as any).organizationId = token.organizationId;
+            }
+            return session;
         }
+
     },
     providers: [
         Google({
@@ -81,11 +123,10 @@ export const { handlers, auth, signIn, signOut } = NextAuth({
                     const user = await getUser(email);
                     if (!user) return null;
 
-                    const passwordsMatch = await bcrypt.compare(password, user.password || ''); // handle null password
+                    const passwordsMatch = await bcrypt.compare(password, user.password || '');
                     if (passwordsMatch) return user;
                 }
 
-                console.log('Invalid credentials');
                 return null;
             },
         }),

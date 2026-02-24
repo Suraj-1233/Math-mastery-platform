@@ -59,6 +59,16 @@ export default function MockTestCard({ test }: MockTestCardProps) {
                 </div>
             </div>
 
+            {/* Organization Branding */}
+            {test.organizationName && (
+                <div className="mb-4 flex items-center gap-2 px-3 py-1 bg-primary/5 border border-primary/10 rounded-full w-fit">
+                    <div className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></div>
+                    <span className="text-[10px] font-bold text-primary uppercase tracking-widest">
+                        Provided by {test.organizationName}
+                    </span>
+                </div>
+            )}
+
             {/* Button */}
             <Link href={`/tests/${test.id}`} className="mt-auto block">
                 <button className="btn btn-primary w-full shadow-md text-base">

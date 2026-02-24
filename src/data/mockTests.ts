@@ -15,6 +15,10 @@ export interface MockTest {
     // Hindi Support
     titleHi?: string;
     descriptionHi?: string;
+    // Backend properties (optional, added during DB fetch)
+    organizationId?: string | null;
+    status?: string;
+    isPublic?: boolean;
 }
 
 export const mockTests: MockTest[] = [

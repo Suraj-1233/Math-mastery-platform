@@ -2,13 +2,25 @@
 
 import { LogOut, AlertTriangle, Loader2 } from 'lucide-react';
 import { logout } from '@/actions/auth';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 
 export function LogoutButton() {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isLoggingOut, setIsLoggingOut] = useState(false);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
+
     const handleConfirmLogout = async () => {
         setIsLoggingOut(true);
+        // Clear all browser storage synchronously before triggering server redirect
+        if (typeof window !== 'undefined') {
+            window.localStorage.clear();
+            window.sessionStorage.clear();
+        }
         await logout();
         // Server action will handle the redirect, no need to setIsLoggingOut(false)
     };
@@ -23,8 +35,8 @@ export function LogoutButton() {
                 Log out
             </button>
 
-            {isMenuOpen && (
-                <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50 px-4">
+            {isMenuOpen && mounted && createPortal(
+                <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 px-4 backdrop-blur-sm">
                     <div className="bg-white rounded-xl shadow-2xl p-6 w-full max-w-sm border border-gray-100 transform transition-all">
                         <div className="flex items-center space-x-3 text-red-600 mb-4">
                             <div className="bg-red-100 p-2 rounded-full">
@@ -61,7 +73,8 @@ export function LogoutButton() {
                             </button>
                         </div>
                     </div>
-                </div>
+                </div>,
+                document.body
             )}
         </>
     );

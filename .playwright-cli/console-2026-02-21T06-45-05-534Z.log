@@ -1,8 +1,0 @@
-[   10643ms] ReferenceError: activityDataRaw is not defined
-    at getUserStats (about://React/Server/file:///Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/ssr/Desktop_Expriment_math_math-mastery-platform_450cb52f._.js?44:271:26)
-    at  DashboardPage (about://React/Server/file:///Users/surajkannujiya/Desktop/Expriment/math/math-mastery-platform/.next_dev/dev/server/chunks/ssr/%5Broot-of-the-server%5D__583cc254._.js?45:118:19)
-    at resolveErrorDev (http://localhost:4000/_next/static/chunks/1b923_next_dist_compiled_react-server-dom-turbopack_4cd53fa0._.js:1894:148)
-    at processFullStringRow (http://localhost:4000/_next/static/chunks/1b923_next_dist_compiled_react-server-dom-turbopack_4cd53fa0._.js:2402:29)
-    at processFullBinaryRow (http://localhost:4000/_next/static/chunks/1b923_next_dist_compiled_react-server-dom-turbopack_4cd53fa0._.js:2361:9)
-    at processBinaryChunk (http://localhost:4000/_next/static/chunks/1b923_next_dist_compiled_react-server-dom-turbopack_4cd53fa0._.js:2470:221)
-    at progress (http://localhost:4000/_next/static/chunks/1b923_next_dist_compiled_react-server-dom-turbopack_4cd53fa0._.js:2640:13)

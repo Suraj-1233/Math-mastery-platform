@@ -3,6 +3,7 @@
 
 import prisma from '@/lib/prisma';
 import { auth } from '@/auth';
+import { randomUUID } from 'crypto';
 
 const BADGE_DEFINITIONS = [
     {
@@ -31,7 +32,7 @@ const BADGE_DEFINITIONS = [
         description: 'Solved a question before 7 AM.',
         icon: 'Sun',
         type: 'SPECIAL',
-        condition: (stats: any) => {
+        condition: (_stats: any) => {
             const hour = new Date().getHours();
             return hour < 7;
         }
@@ -40,7 +41,6 @@ const BADGE_DEFINITIONS = [
 
 export async function checkAndAwardBadges(userId: string) {
     try {
-        // Get latest user stats
         const [totalSolved, correctCount, userProgress] = await Promise.all([
             prisma.userProgress.count({ where: { userId, isSolved: true } }),
             prisma.userProgress.count({ where: { userId, isCorrect: true } }),
@@ -51,7 +51,6 @@ export async function checkAndAwardBadges(userId: string) {
             })
         ]);
 
-        // Calculate streak (simplified version for badge logic)
         const uniqueDays = Array.from(new Set(userProgress.map(p => p.attemptedAt.toISOString().split('T')[0])));
         let currentStreak = 0;
         if (uniqueDays.length > 0) {
@@ -75,13 +74,13 @@ export async function checkAndAwardBadges(userId: string) {
             currentStreak
         };
 
-        // Get existing badges using Raw SQL because Prisma client is out of sync
-        const existingBadges: any[] = await prisma.$queryRawUnsafe(`
-            SELECT name FROM Badge WHERE userId = '${userId}'
-        `);
+        // Use parameterized query to avoid SQL injection
+        const existingBadges: any[] = await (prisma as any).$queryRawUnsafe(
+            `SELECT name FROM Badge WHERE userId = ?`,
+            userId
+        );
         const existingBadgeNames = new Set(existingBadges.map((b: any) => b.name));
 
-        // Check each badge
         const newBadges = [];
         for (const definition of BADGE_DEFINITIONS) {
             if (!existingBadgeNames.has(definition.name) && definition.condition(stats)) {
@@ -96,20 +95,17 @@ export async function checkAndAwardBadges(userId: string) {
         }
 
         if (newBadges.length > 0) {
-            // Save new badges using Raw SQL
+            // Save new badges using parameterized raw SQL
             for (const badge of newBadges) {
-                await prisma.$executeRawUnsafe(`
-                    INSERT INTO Badge (id, name, description, icon, type, userId, awardedAt)
-                    VALUES (
-                        '${Math.random().toString(36).substr(2, 9)}',
-                        '${badge.name}',
-                        '${badge.description}',
-                        '${badge.icon}',
-                        '${badge.type}',
-                        '${userId}',
-                        DATETIME('now')
-                    )
-                `);
+                await (prisma as any).$executeRawUnsafe(
+                    `INSERT INTO Badge (id, name, description, icon, type, userId, awardedAt) VALUES (?, ?, ?, ?, ?, ?, datetime('now'))`,
+                    randomUUID(),
+                    badge.name,
+                    badge.description,
+                    badge.icon,
+                    badge.type,
+                    userId
+                );
             }
             return newBadges;
         }
@@ -125,10 +121,12 @@ export async function getUserBadges() {
     const session = await auth();
     if (!session?.user?.id) return [];
 
-    // Use Raw SQL because Badge model might not be in the generated Prisma Client yet
-    return await prisma.$queryRawUnsafe(`
-        SELECT * FROM Badge 
-        WHERE userId = '${session.user.id}' 
-        ORDER BY awardedAt DESC
-    `) as any[];
+    try {
+        return await (prisma as any).$queryRawUnsafe(
+            `SELECT * FROM Badge WHERE userId = ? ORDER BY awardedAt DESC`,
+            session.user.id
+        ) as any[];
+    } catch {
+        return [];
+    }
 }

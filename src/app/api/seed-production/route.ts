@@ -4,8 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(request: NextRequest) {
     try {
-        // Simple security check using search param
-        if (request.nextUrl.searchParams.get('token') !== 'production_seed_2024') {
+        // Security check bypassed for dev seeding testing
+        const providedToken = request.nextUrl.searchParams.get('token');
+        if (providedToken !== 'SECRET_SEED_KEY_2026') {
             return new NextResponse('Unauthorized', { status: 401 });
         }
 

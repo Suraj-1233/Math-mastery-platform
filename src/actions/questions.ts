@@ -8,9 +8,25 @@ import { getQuestionsSchema, submitAnswerSchema } from '@/lib/validations/questi
 import { z } from 'zod';
 import { checkAndAwardBadges } from '@/actions/badges';
 
+// Safe JSON parser — handles already-parsed objects, string JSON, and nulls
+function safeParseOptions(raw: any): any[] {
+    if (!raw) return [];
+    if (typeof raw === 'object' && !Array.isArray(raw)) {
+        // SQLite raw query sometimes returns bigint-keyed objects like { '0': ..., '1': ... }
+        return Object.values(raw);
+    }
+    if (Array.isArray(raw)) return raw;
+    if (typeof raw === 'string') {
+        try { return JSON.parse(raw); }
+        catch { return []; }
+    }
+    return [];
+}
+
 export async function getQuestions(input: z.infer<typeof getQuestionsSchema>) {
     const session = await auth();
     const userId = session?.user?.id;
+    const userOrgId = (session?.user as any)?.organizationId;
 
     const { page, limit, subject, topic, examType, notExamType, difficulty, status, search, sortBy } = input;
     const skip = (page - 1) * limit;
@@ -23,6 +39,13 @@ export async function getQuestions(input: z.infer<typeof getQuestionsSchema>) {
     if (notExamType) whereConditions.push(`examType != '${notExamType}'`);
     if (difficulty) whereConditions.push(`difficulty = '${difficulty}'`);
     if (search) whereConditions.push(`text LIKE '%${search}%'`);
+
+    // Data Isolation: Show global questions OR questions belonging to user's organization
+    if (userOrgId) {
+        whereConditions.push(`(organizationId IS NULL OR organizationId = '${userOrgId}')`);
+    } else {
+        whereConditions.push(`organizationId IS NULL`);
+    }
 
     if (userId && status) {
         if (status === 'SOLVED') {
@@ -82,7 +105,7 @@ export async function getQuestions(input: z.infer<typeof getQuestionsSchema>) {
             ...q,
             occurrences: occurrences.filter(o => o.questionId === q.id),
             media: media.filter(m => m.questionId === q.id),
-            options: q.options ? JSON.parse(q.options as string) : [],
+            options: safeParseOptions(q.options),
             userStatus: progress
                 ? {
                     isSolved: progress.isSolved,
@@ -239,7 +262,7 @@ export async function getQuestion(id: string) {
         ...q,
         occurrences,
         media,
-        options: q.options ? JSON.parse(q.options as string) : [],
+        options: safeParseOptions(q.options),
         userStatus: progress
             ? {
                 isSolved: progress.isSolved,

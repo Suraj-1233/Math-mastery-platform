@@ -3,6 +3,7 @@ import Link from 'next/link';
 import { Target } from 'lucide-react';
 import { auth } from '@/auth';
 import { redirect } from 'next/navigation';
+import { getHomeForRole } from '@/auth.config';
 
 type Props = {
     searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
@@ -11,7 +12,8 @@ type Props = {
 export default async function LoginPage({ searchParams }: Props) {
     const session = await auth();
     if (session?.user) {
-        redirect('/questions');
+        const user = session.user as any;
+        redirect(getHomeForRole(user.role, user.memberships));
     }
 
     const resolvedParams = await searchParams;
